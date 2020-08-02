@@ -22,7 +22,6 @@ class RDFInquistior:
         )
         self.__check_if_valid(self.content_type)
         self.rdf_string = r.content.decode("utf-8")
-        print(self.rdf_string)
         g = Graph()
         return g.parse(io.StringIO(self.rdf_string), format=self.content_type)
 
@@ -65,7 +64,7 @@ class RDFInquistior:
             rdf_property = URIRef(rdf_property)
         ranges = []
         for s, p, o in self.rdf.triples((rdf_property, RDFS.range, None)):
-            ranges.append(o)
+            ranges.append(str(o))
         return ranges
 
 
