@@ -17,11 +17,17 @@ class RDFInquistior:
             "text/rdf+n3, application/rdf+n3, application/rdf+xml, application/n-triples"
         }
         r = requests.get(self.uri, headers=headers, verify=False)
-        self.__check_if_valid(r.headers["Content-Type"])
-        self.content_type = r.headers["Content-Type"]
+        self.content_type = self.__get_content_type(
+            r.headers["Content-Type"].split(";")[0]
+        )
+        self.__check_if_valid(self.content_type)
         self.rdf_string = r.content.decode("utf-8")
         g = Graph()
         return g.parse(io.StringIO(self.rdf_string), format=self.content_type)
+
+    @staticmethod
+    def __get_content_type(content_type):
+        return content_type.split(";")[0]
 
     @staticmethod
     def __check_if_valid(mime_type):
@@ -37,7 +43,9 @@ class RDFInquistior:
             "application/rdf+xml",
             "application/n-triples",
         ):
-            raise ValueError("This is not valid RDF! Check your URI.")
+            raise ValueError(
+                f"This is not valid RDF! Check your URI. Mime type is {mime_type}."
+            )
 
     def get_labels(self, subject=None):
         """Returns all labels or labels related to a particular subject for your RDF."""
@@ -49,6 +57,8 @@ class RDFInquistior:
         for s, p, o in self.rdf.triples((subject, RDFS.label, None)):
             labels.append(o)
         return labels
+
+    # def get_range(self, subject=None):
 
 
 if __name__ == "__main__":
