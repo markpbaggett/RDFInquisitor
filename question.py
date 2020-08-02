@@ -67,13 +67,12 @@ class RDFInquistior:
         """Accepts a RDF property and returns either all ranges in a graph or the ranges related to that property."""
         if rdf_property is not None:
             rdf_property = URIRef(rdf_property)
-        ranges = []
-        for s, p, o in self.rdf.triples((rdf_property, RDFS.range, None)):
-            ranges.append(str(o))
+        ranges = [
+            str(o) for s, p, o in self.rdf.triples((rdf_property, RDFS.range, None))
+        ]
         return ranges
 
 
 if __name__ == "__main__":
-    x = RDFInquistior("http://purl.org/dc/terms/type")
-    # print(x.get_labels("http://purl.org/dc/terms/type"))
-    x.download_rdf("rdf/dcterms")
+    x = RDFInquistior("http://purl.org/dc/terms/valid")
+    print(x.get_range("http://purl.org/dc/terms/valid"))
