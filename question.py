@@ -1,13 +1,16 @@
 import requests
-
+from rdflib import Graph, URIRef, RDFS
+from rdflib.namespace import RDF, SKOS
+import io
 
 class QuestionRDF:
     def __init__(self, uri: str):
         self.uri = uri
         self.content_type = "Unknown"
-        self.rdf = self.__get_rdf()
+        self.rdf_string = ""
+        self.rdf = self.__process_rdf()
 
-    def __get_rdf(self):
+    def __process_rdf(self):
         headers = {
             "Accept": "text/turtle, application/turtle, application/x-turtle, application/json, text/json, text/n3,"
             "text/rdf+n3, application/rdf+n3, application/rdf+xml, application/n-triples"
@@ -15,7 +18,9 @@ class QuestionRDF:
         r = requests.get(self.uri, headers=headers, verify=False)
         self.__check_if_valid(r.headers["Content-Type"])
         self.content_type = r.headers["Content-Type"]
-        return r.content.decode("utf-8"), r.headers["Content-Type"]
+        self.rdf_string = r.content.decode("utf-8")
+        g = Graph()
+        return g.parse(io.StringIO(self.rdf_string), format=self.content_type)
 
     @staticmethod
     def __check_if_valid(mime_type):
