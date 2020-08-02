@@ -49,8 +49,24 @@ class RDFInquistior:
             )
 
     def download_rdf(self, path):
+        """Download the negotiated RDF to a specific path.
+
+        Requires a path and serializes the RDF negotiated from a web server to that path on disk in the format provided.
+
+        Args:
+            path (str): Required.  The path with filename (no extension) for where to serialize your file.
+
+        Returns:
+            str: A message stating where the file was serialized.
+
+        Example:
+            >>> RDFInquistior("http://rightsstatements.org/vocab/InC/1.0/").download_rdf("rdf/dcterms")
+            'File was successfully serialized as rdf/dcterms.ttl'
+
+        """
         with open(f"{path}{mimetypes.guess_extension(self.content_type)}", "w") as rdf:
             rdf.write(self.rdf)
+        return f"File was successfully serialized as {path}{mimetypes.guess_extension(self.content_type)}"
 
     def get_labels(self, subject=None):
         """Get labels from your graph.
@@ -114,8 +130,4 @@ class RDFInquistior:
 
 
 if __name__ == "__main__":
-    print(
-        RDFInquistior("http://purl.org/dc/terms/valid").get_range(
-            "http://purl.org/dc/terms/valid"
-        )
-    )
+    print(RDFInquistior("http://purl.org/dc/terms/valid").download_rdf("rdf/dcterms"))
