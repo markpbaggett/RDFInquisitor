@@ -22,6 +22,7 @@ class RDFInquistior:
         )
         self.__check_if_valid(self.content_type)
         self.rdf_string = r.content.decode("utf-8")
+        print(self.rdf_string)
         g = Graph()
         return g.parse(io.StringIO(self.rdf_string), format=self.content_type)
 
@@ -58,9 +59,16 @@ class RDFInquistior:
             labels.append(o)
         return labels
 
-    # def get_range(self, subject=None):
+    def get_range(self, rdf_property=None):
+        """Accepts a RDF property and returns either all ranges in a graph or the ranges related to that property."""
+        if rdf_property is not None:
+            rdf_property = URIRef(rdf_property)
+        ranges = []
+        for s, p, o in self.rdf.triples((rdf_property, RDFS.range, None)):
+            ranges.append(o)
+        return ranges
 
 
 if __name__ == "__main__":
-    x = RDFInquistior("http://rightsstatements.org/vocab/CNE/1.0/")
-    print(x.get_labels("http://rightsstatements.org/vocab/CNE/1.0/"))
+    x = RDFInquistior("http://id.loc.gov/ontologies/bibframe/extent")
+    print(x.get_range("http://id.loc.gov/ontologies/bibframe/extent"))
