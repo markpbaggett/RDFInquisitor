@@ -3,6 +3,7 @@ from rdflib import Graph, URIRef, RDFS
 from rdflib.namespace import RDF, SKOS
 import io
 
+
 class QuestionRDF:
     def __init__(self, uri: str):
         self.uri = uri
@@ -38,6 +39,18 @@ class QuestionRDF:
         ):
             raise ValueError("This is not valid RDF! Check your URI.")
 
+    def get_labels(self, subject=None):
+        """Returns all labels or labels related to a particular subject for your RDF."""
+        if subject is not None:
+            subject = URIRef(subject)
+        labels = []
+        for s, p, o in self.rdf.triples((subject, SKOS.prefLabel, None)):
+            labels.append(o)
+        for s, p, o in self.rdf.triples((subject, RDFS.label, None)):
+            labels.append(o)
+        return labels
+
 
 if __name__ == "__main__":
     x = QuestionRDF("http://rightsstatements.org/vocab/CNE/1.0/")
+    print(x.get_labels("http://rightsstatements.org/vocab/CNE/1.0/"))
