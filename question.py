@@ -53,7 +53,32 @@ class RDFInquistior:
             rdf.write(self.rdf_string)
 
     def get_labels(self, subject=None):
-        """Returns all labels or labels related to a particular subject for your RDF."""
+        """Get labels from your graph.
+
+        Accepts a subject and returns either all labels from a graph or labels related to a particular subject
+        (if one is specified).
+
+        Args:
+            subject (str): Optional.  This is None by default, but should be the full URI of a subject as a string.
+
+        Returns:
+             list: A list of labels as rdflib.terms.
+
+        Examples:
+            >>> RDFInquistior("http://rightsstatements.org/vocab/InC/1.0/").get_labels()
+            [rdflib.term.Literal('In Copyright', lang='en'), rdflib.term.Literal('Auteursrechtelijk beschermd',
+            lang='nl'), rdflib.term.Literal('Kehtiv autoriõigus', lang='et'),
+            rdflib.term.Literal('Autorių teisės saugomos', lang='lt'), rdflib.term.Literal('प्रतिलिप्यधिकार (कॉपीराइट) में',
+            lang='hi'), rdflib.term.Literal('Objęty pełną ochroną prawnoautorską', lang='pl'),
+            rdflib.term.Literal('Tekijänoikeuden piirissä', lang='fi'), rdflib.term.Literal('Underkastad upphovsrätt',
+            lang='sv-fi'), rdflib.term.Literal("Protégé par le droit d'auteur", lang='fr'),
+            rdflib.term.Literal('Urheberrechtsschutz', lang='de'), rdflib.term.Literal('Protegido por derecho de autor',
+            lang='es')]
+
+            >>> RDFInquistior("http://purl.org/dc/terms/valid").get_labels("http://purl.org/dc/terms/valid")
+            [rdflib.term.Literal('Date Valid', lang='en')]
+
+        """
         if subject is not None:
             subject = URIRef(subject)
         labels = []
@@ -64,7 +89,11 @@ class RDFInquistior:
         return labels
 
     def get_range(self, rdf_property=None):
-        """Accepts a RDF property and returns either all ranges in a graph or the ranges related to that property."""
+        """Accepts a RDF property and returns either all ranges in a graph or the ranges related to that property
+        (if one is specified).
+
+
+        """
         if rdf_property is not None:
             rdf_property = URIRef(rdf_property)
         ranges = [
@@ -74,5 +103,4 @@ class RDFInquistior:
 
 
 if __name__ == "__main__":
-    x = RDFInquistior("http://purl.org/dc/terms/valid")
-    print(x.get_range("http://purl.org/dc/terms/valid"))
+    print(RDFInquistior("http://rightsstatements.org/vocab/InC/1.0/").get_labels())
