@@ -9,8 +9,8 @@ class RDFInquistior:
     def __init__(self, uri: str):
         self.uri = uri
         self.content_type = "Unknown"
-        self.rdf_string = ""
-        self.rdf = self.__process_rdf()
+        self.rdf = ""
+        self.graph = self.__process_rdf()
 
     def __process_rdf(self):
         headers = {
@@ -22,9 +22,9 @@ class RDFInquistior:
             r.headers["Content-Type"].split(";")[0]
         )
         self.__check_if_valid(self.content_type)
-        self.rdf_string = r.content.decode("utf-8")
+        self.rdf = r.content.decode("utf-8")
         g = Graph()
-        return g.parse(io.StringIO(self.rdf_string), format=self.content_type)
+        return g.parse(io.StringIO(self.rdf), format=self.content_type)
 
     @staticmethod
     def __get_content_type(content_type):
@@ -50,7 +50,7 @@ class RDFInquistior:
 
     def download_rdf(self, path):
         with open(f"{path}{mimetypes.guess_extension(self.content_type)}", "w") as rdf:
-            rdf.write(self.rdf_string)
+            rdf.write(self.rdf)
 
     def get_labels(self, subject=None):
         """Get labels from your graph.
@@ -82,9 +82,9 @@ class RDFInquistior:
         if subject is not None:
             subject = URIRef(subject)
         labels = []
-        for s, p, o in self.rdf.triples((subject, SKOS.prefLabel, None)):
+        for s, p, o in self.graph.triples((subject, SKOS.prefLabel, None)):
             labels.append(o)
-        for s, p, o in self.rdf.triples((subject, RDFS.label, None)):
+        for s, p, o in self.graph.triples((subject, RDFS.label, None)):
             labels.append(o)
         return labels
 
@@ -108,7 +108,7 @@ class RDFInquistior:
         if rdf_property is not None:
             rdf_property = URIRef(rdf_property)
         ranges = [
-            str(o) for s, p, o in self.rdf.triples((rdf_property, RDFS.range, None))
+            str(o) for s, p, o in self.graph.triples((rdf_property, RDFS.range, None))
         ]
         return ranges
 
