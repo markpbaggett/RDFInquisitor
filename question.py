@@ -128,6 +128,26 @@ class RDFInquistior:
         ]
         return ranges
 
+    def get_types(self, rdf_class=None):
+        """State the type of a particular RDF class.
+
+        Accepts a RDF class and returns either all types in a graph or the types associated with the specified class.
+
+        Args:
+            rdf_class (str): Optional. This is None by default, but should be the full URI of a class as a string.
+
+        Returns:
+            list: A list of types as URI strings.
+
+        Example:
+            >>> RDFInquistior("http://rightsstatements.org/vocab/InC/1.0/").get_types()
+            ['http://purl.org/dc/terms/RightsStatement', 'http://www.w3.org/2004/02/skos/core#Concept']
+
+        """
+        if rdf_class is not None:
+            rdf_class = URIRef(rdf_class)
+        return [str(o) for s, p, o in self.graph.triples((rdf_class, RDF.type, None))]
+
 
 if __name__ == "__main__":
-    print(RDFInquistior("http://purl.org/dc/terms/valid").download_rdf("rdf/dcterms"))
+    print(RDFInquistior("http://rightsstatements.org/vocab/InC/1.0/").get_types())
