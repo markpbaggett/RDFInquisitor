@@ -89,9 +89,20 @@ class RDFInquistior:
         return labels
 
     def get_range(self, rdf_property=None):
-        """Accepts a RDF property and returns either all ranges in a graph or the ranges related to that property
+        """Get range of properties from your graph.
+
+        Accepts a RDF property and returns either all ranges in a graph or the ranges related to a property
         (if one is specified).
 
+        Args:
+            rdf_property (str): Optional. This is None by default, but should be the full URI of a property as a string.
+
+        Returns:
+             list: A list of ranges as strings.
+
+        Examples:
+            >>> RDFInquistior("http://purl.org/dc/terms/valid").get_range("http://purl.org/dc/terms/valid")
+            ['http://www.w3.org/2000/01/rdf-schema#Literal']
 
         """
         if rdf_property is not None:
@@ -103,4 +114,8 @@ class RDFInquistior:
 
 
 if __name__ == "__main__":
-    print(RDFInquistior("http://rightsstatements.org/vocab/InC/1.0/").get_labels())
+    print(
+        RDFInquistior("http://purl.org/dc/terms/valid").get_range(
+            "http://purl.org/dc/terms/valid"
+        )
+    )
