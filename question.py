@@ -1,5 +1,5 @@
 import requests
-from rdflib import Graph, URIRef, RDFS
+from rdflib import Graph, URIRef, RDFS, Literal
 from rdflib.namespace import RDF, SKOS
 import io
 import mimetypes
@@ -48,6 +48,15 @@ class RDFInquistior:
                 f"This is not valid RDF! Check your URI. Mime type is {mime_type}."
             )
 
+    @staticmethod
+    def __convert_fragment(fragment):
+        if fragment is None:
+            return fragment
+        elif fragment.startswith("http"):
+            return URIRef(fragment)
+        else:
+            return Literal(fragment)
+
     def download_rdf(self, path):
         """Download the negotiated RDF to a specific path.
 
@@ -95,12 +104,14 @@ class RDFInquistior:
             [rdflib.term.Literal('Date Valid', lang='en')]
 
         """
-        if subject is not None:
-            subject = URIRef(subject)
         labels = []
-        for s, p, o in self.graph.triples((subject, SKOS.prefLabel, None)):
+        for s, p, o in self.graph.triples(
+            (self.__convert_fragment(subject), SKOS.prefLabel, None)
+        ):
             labels.append(o)
-        for s, p, o in self.graph.triples((subject, RDFS.label, None)):
+        for s, p, o in self.graph.triples(
+            (self.__convert_fragment(subject), RDFS.label, None)
+        ):
             labels.append(o)
         return labels
 
@@ -121,10 +132,11 @@ class RDFInquistior:
             ['http://www.w3.org/2000/01/rdf-schema#Literal']
 
         """
-        if rdf_property is not None:
-            rdf_property = URIRef(rdf_property)
         return [
-            str(o) for s, p, o in self.graph.triples((rdf_property, RDFS.range, None))
+            str(o)
+            for s, p, o in self.graph.triples(
+                (self.__convert_fragment(rdf_property), RDFS.range, None)
+            )
         ]
 
     def get_types(self, rdf_class=None):
@@ -143,9 +155,12 @@ class RDFInquistior:
             ['http://purl.org/dc/terms/RightsStatement', 'http://www.w3.org/2004/02/skos/core#Concept']
 
         """
-        if rdf_class is not None:
-            rdf_class = URIRef(rdf_class)
-        return [str(o) for s, p, o in self.graph.triples((rdf_class, RDF.type, None))]
+        return [
+            str(o)
+            for s, p, o in self.graph.triples(
+                (self.__convert_fragment(rdf_class), RDF.type, None)
+            )
+        ]
 
 
 if __name__ == "__main__":
