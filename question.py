@@ -4,7 +4,7 @@ from rdflib.namespace import RDF, SKOS
 import io
 
 
-class QuestionRDF:
+class RDFInquistior:
     def __init__(self, uri: str):
         self.uri = uri
         self.content_type = "Unknown"
@@ -52,5 +52,5 @@ class QuestionRDF:
 
 
 if __name__ == "__main__":
-    x = QuestionRDF("http://rightsstatements.org/vocab/CNE/1.0/")
+    x = RDFInquistior("http://rightsstatements.org/vocab/CNE/1.0/")
     print(x.get_labels("http://rightsstatements.org/vocab/CNE/1.0/"))
