@@ -123,10 +123,9 @@ class RDFInquistior:
         """
         if rdf_property is not None:
             rdf_property = URIRef(rdf_property)
-        ranges = [
+        return [
             str(o) for s, p, o in self.graph.triples((rdf_property, RDFS.range, None))
         ]
-        return ranges
 
     def get_types(self, rdf_class=None):
         """State the type of a particular RDF class.
