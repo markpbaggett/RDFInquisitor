@@ -2,6 +2,7 @@ import requests
 from rdflib import Graph, URIRef, RDFS
 from rdflib.namespace import RDF, SKOS
 import io
+import mimetypes
 
 
 class RDFInquistior:
@@ -16,7 +17,7 @@ class RDFInquistior:
             "Accept": "text/turtle, application/turtle, application/x-turtle, application/json, text/json, text/n3,"
             "text/rdf+n3, application/rdf+n3, application/rdf+xml, application/n-triples"
         }
-        r = requests.get(self.uri, headers=headers, verify=False)
+        r = requests.get(self.uri, headers=headers)
         self.content_type = self.__get_content_type(
             r.headers["Content-Type"].split(";")[0]
         )
@@ -47,6 +48,10 @@ class RDFInquistior:
                 f"This is not valid RDF! Check your URI. Mime type is {mime_type}."
             )
 
+    def download_rdf(self, path):
+        with open(f'{path}{mimetypes.guess_extension(self.content_type)}', 'w') as rdf:
+            rdf.write(self.rdf_string)
+
     def get_labels(self, subject=None):
         """Returns all labels or labels related to a particular subject for your RDF."""
         if subject is not None:
@@ -69,5 +74,6 @@ class RDFInquistior:
 
 
 if __name__ == "__main__":
-    x = RDFInquistior("http://id.loc.gov/ontologies/bibframe/extent")
-    print(x.get_range("http://id.loc.gov/ontologies/bibframe/extent"))
+    x = RDFInquistior("http://purl.org/dc/terms/type")
+    #print(x.get_labels("http://purl.org/dc/terms/type"))
+    x.download_rdf('rdf/dcterms')
