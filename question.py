@@ -49,7 +49,7 @@ class RDFInquistior:
             )
 
     def download_rdf(self, path):
-        with open(f'{path}{mimetypes.guess_extension(self.content_type)}', 'w') as rdf:
+        with open(f"{path}{mimetypes.guess_extension(self.content_type)}", "w") as rdf:
             rdf.write(self.rdf_string)
 
     def get_labels(self, subject=None):
@@ -75,5 +75,5 @@ class RDFInquistior:
 
 if __name__ == "__main__":
     x = RDFInquistior("http://purl.org/dc/terms/type")
-    #print(x.get_labels("http://purl.org/dc/terms/type"))
-    x.download_rdf('rdf/dcterms')
+    # print(x.get_labels("http://purl.org/dc/terms/type"))
+    x.download_rdf("rdf/dcterms")
