@@ -8,21 +8,22 @@ import mimetypes
 class RDFInquisitor:
     def __init__(self, uri: str):
         self.uri = uri
-        self.content_type = "Unknown"
-        self.rdf = ""
+        self._response = self.__request_data()
+        self.content_type = self.__get_content_type(
+            self._response.headers["Content-Type"].split(";")[0]
+        )
+        self._valid = self.__check_if_valid(self.content_type)
+        self.rdf = self._response.content.decode("utf-8")
         self.graph = self.__process_rdf()
 
-    def __process_rdf(self):
+    def __request_data(self):
         headers = {
             "Accept": "text/turtle, application/turtle, application/x-turtle, application/json, text/json, text/n3,"
             "text/rdf+n3, application/rdf+n3, application/rdf+xml, application/n-triples"
         }
-        r = requests.get(self.uri, headers=headers)
-        self.content_type = self.__get_content_type(
-            r.headers["Content-Type"].split(";")[0]
-        )
-        self.__check_if_valid(self.content_type)
-        self.rdf = r.content.decode("utf-8")
+        return requests.get(self.uri, headers=headers)
+
+    def __process_rdf(self):
         g = Graph()
         return g.parse(io.StringIO(self.rdf), format=self.content_type)
 
@@ -47,6 +48,7 @@ class RDFInquisitor:
             raise ValueError(
                 f"This is not valid RDF! Check your URI. Mime type is {mime_type}."
             )
+        return True
 
     @staticmethod
     def __convert_fragment(fragment):
