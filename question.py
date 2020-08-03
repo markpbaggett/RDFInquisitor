@@ -163,6 +163,13 @@ class RDFInquisitor:
             >>> RDFInquisitor("http://purl.org/dc/terms/valid").get_range("http://purl.org/dc/terms/valid")
             ['http://www.w3.org/2000/01/rdf-schema#Literal']
 
+            >>> RDFInquisitor("http://www.w3.org/2004/02/skos/core#inScheme").get_range(
+            ... "http://www.w3.org/2004/02/skos/core#inScheme")
+            ['http://www.w3.org/2004/02/skos/core#ConceptScheme']
+
+            >>> RDFInquisitor("http://id.loc.gov/ontologies/bibframe/grantingInstitution").get_range()
+            ['http://id.loc.gov/ontologies/bibframe/Agent']
+
         """
         return [
             str(o)
