@@ -10,6 +10,7 @@ black = "*"
 requests = "*"
 rdflib = "*"
 rdflib-jsonld = "*"
+argparse = "*"
 
 [requires]
 python_version = "3.8"
