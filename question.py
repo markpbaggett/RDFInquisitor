@@ -1,7 +1,6 @@
 import requests
 from rdflib import Graph, URIRef, RDFS, Literal
 from rdflib.namespace import RDF, SKOS
-import mimetypes
 
 
 class RDFInquisitor:
@@ -60,13 +59,14 @@ class RDFInquisitor:
         else:
             return Literal(fragment)
 
-    def download_rdf(self, path):
+    def download_rdf(self, path, format="ttl"):
         """Download the negotiated RDF to a specific path.
 
-        Requires a path and serializes the RDF negotiated from a web server to that path on disk in the format provided.
+        Requires a path and serializes the negotiated RDF from a web server to disk.
 
         Args:
             path (str): Required.  The path with filename (no extension) for where to serialize your file.
+            format (str): Optional. The format you want to serialize your rdf as.
 
         Returns:
             str: A message stating where the file was serialized.
@@ -75,10 +75,22 @@ class RDFInquisitor:
             >>> RDFInquisitor("http://rightsstatements.org/vocab/InC/1.0/").download_rdf("rdf/dcterms")
             'File was successfully serialized as rdf/dcterms.ttl'
 
+            >>> RDFInquisitor("http://rightsstatements.org/vocab/InC/1.0/").download_rdf("rdf/dcterms", "ttl")
+            'File was successfully serialized as rdf/dcterms.ttl'
+
+            >>> RDFInquisitor("http://rightsstatements.org/vocab/InC/1.0/").download_rdf("rdf/dcterms", "json-ld")
+            'File was successfully serialized as rdf/dcterms.json-ld'
+
+            >>> RDFInquisitor("http://rightsstatements.org/vocab/InC/1.0/").download_rdf("rdf/dcterms", "xml")
+            'File was successfully serialized as rdf/dcterms.xml'
+
+            >>> RDFInquisitor("http://rightsstatements.org/vocab/InC/1.0/").download_rdf("rdf/dcterms", "nt")
+            'File was successfully serialized as rdf/dcterms.nt'
+
         """
-        with open(f"{path}{mimetypes.guess_extension(self.content_type)}", "w") as rdf:
-            rdf.write(self.rdf)
-        return f"File was successfully serialized as {path}{mimetypes.guess_extension(self.content_type)}"
+        with open(f"{path}.{format}", "wb") as rdf:
+            rdf.write(self.graph.serialize(format=format, indent=4))
+        return f"File was successfully serialized as {path}.{format}"
 
     def get_label_by_language(self, subject, language_tag):
         """Get the label of a subject in a specific language.
