@@ -5,7 +5,7 @@ import io
 import mimetypes
 
 
-class RDFInquistior:
+class RDFInquisitor:
     def __init__(self, uri: str):
         self.uri = uri
         self.content_type = "Unknown"
@@ -69,7 +69,7 @@ class RDFInquistior:
             str: A message stating where the file was serialized.
 
         Example:
-            >>> RDFInquistior("http://rightsstatements.org/vocab/InC/1.0/").download_rdf("rdf/dcterms")
+            >>> RDFInquisitor("http://rightsstatements.org/vocab/InC/1.0/").download_rdf("rdf/dcterms")
             'File was successfully serialized as rdf/dcterms.ttl'
 
         """
@@ -90,7 +90,7 @@ class RDFInquistior:
              list: A list of labels as rdflib.terms.
 
         Examples:
-            >>> RDFInquistior("http://rightsstatements.org/vocab/InC/1.0/").get_labels()
+            >>> RDFInquisitor("http://rightsstatements.org/vocab/InC/1.0/").get_labels()
             [rdflib.term.Literal('In Copyright', lang='en'), rdflib.term.Literal('Auteursrechtelijk beschermd',
             lang='nl'), rdflib.term.Literal('Kehtiv autoriõigus', lang='et'),
             rdflib.term.Literal('Autorių teisės saugomos', lang='lt'), rdflib.term.Literal('प्रतिलिप्यधिकार (कॉपीराइट) में',
@@ -100,7 +100,7 @@ class RDFInquistior:
             rdflib.term.Literal('Urheberrechtsschutz', lang='de'), rdflib.term.Literal('Protegido por derecho de autor',
             lang='es')]
 
-            >>> RDFInquistior("http://purl.org/dc/terms/valid").get_labels("http://purl.org/dc/terms/valid")
+            >>> RDFInquisitor("http://purl.org/dc/terms/valid").get_labels("http://purl.org/dc/terms/valid")
             [rdflib.term.Literal('Date Valid', lang='en')]
 
         """
@@ -128,7 +128,7 @@ class RDFInquistior:
              list: A list of ranges as strings.
 
         Examples:
-            >>> RDFInquistior("http://purl.org/dc/terms/valid").get_range("http://purl.org/dc/terms/valid")
+            >>> RDFInquisitor("http://purl.org/dc/terms/valid").get_range("http://purl.org/dc/terms/valid")
             ['http://www.w3.org/2000/01/rdf-schema#Literal']
 
         """
@@ -151,7 +151,7 @@ class RDFInquistior:
             list: A list of types as URI strings.
 
         Example:
-            >>> RDFInquistior("http://rightsstatements.org/vocab/InC/1.0/").get_types()
+            >>> RDFInquisitor("http://rightsstatements.org/vocab/InC/1.0/").get_types()
             ['http://purl.org/dc/terms/RightsStatement', 'http://www.w3.org/2004/02/skos/core#Concept']
 
         """
@@ -164,4 +164,4 @@ class RDFInquistior:
 
 
 if __name__ == "__main__":
-    print(RDFInquistior("http://rightsstatements.org/vocab/InC/1.0/").get_types())
+    print(RDFInquisitor("http://rightsstatements.org/vocab/InC/1.0/").get_types())
