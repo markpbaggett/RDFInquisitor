@@ -9,6 +9,7 @@ black = "*"
 [packages]
 requests = "*"
 rdflib = "*"
+rdflib-jsonld = "*"
 
 [requires]
 python_version = "3.8"

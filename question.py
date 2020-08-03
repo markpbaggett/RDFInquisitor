@@ -18,14 +18,16 @@ class RDFInquisitor:
 
     def __request_data(self):
         headers = {
-            "Accept": "text/turtle, application/turtle, application/x-turtle, text/n3,"
-            "text/rdf+n3, application/rdf+n3, application/rdf+xml, application/n-triples, application/json, text/json,"
+            "Accept": "text/turtle, application/turtle, application/x-turtle, text/n3, text/rdf+n3, application/rdf+n3,"
+            "application/rdf+xml, application/n-triples, application/json, text/json,"
         }
         return requests.get(self.uri, headers=headers)
 
     def __process_rdf(self):
-        g = Graph()
-        return g.parse(io.StringIO(self.rdf), format=self.content_type)
+        if "json" in self.content_type:
+            return Graph().parse(self.rdf, format="json-ld")
+        else:
+            return Graph().parse(io.StringIO(self.rdf), format=self.content_type)
 
     @staticmethod
     def __get_content_type(content_type):
