@@ -93,10 +93,12 @@ class RDFInquisitor:
             str: Either the label or a message indicating that no label could be found.
 
         Examples:
-            >>> RDFInquisitor("http://rightsstatements.org/vocab/InC/1.0/").get_label_by_language("http://rightsstatements.org/vocab/InC/1.0/", "en")
+            >>> RDFInquisitor("http://rightsstatements.org/vocab/InC/1.0/").get_label_by_language(
+            ... "http://rightsstatements.org/vocab/InC/1.0/", "en")
             "In Copyright"
 
-            >>> RDFInquisitor("http://rightsstatements.org/vocab/InC/1.0/").get_label_by_language("http://rightsstatements.org/vocab/InC/1.0/", "ja")
+            >>> RDFInquisitor("http://rightsstatements.org/vocab/InC/1.0/").get_label_by_language(
+            ... "http://rightsstatements.org/vocab/InC/1.0/", "ja")
             "No label for http://rightsstatements.org/vocab/InC/1.0/ in ja."
 
         """
@@ -108,7 +110,7 @@ class RDFInquisitor:
         return result
 
     def get_labels(self, subject=None):
-        """Get labels from your graph.
+        """Get a list of labels from your graph.
 
         Accepts a subject and returns either all labels from a graph or labels related to a particular subject
         (if one is specified).
