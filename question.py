@@ -95,11 +95,11 @@ class RDFInquisitor:
         Examples:
             >>> RDFInquisitor("http://rightsstatements.org/vocab/InC/1.0/").get_label_by_language(
             ... "http://rightsstatements.org/vocab/InC/1.0/", "en")
-            "In Copyright"
+            'In Copyright'
 
             >>> RDFInquisitor("http://rightsstatements.org/vocab/InC/1.0/").get_label_by_language(
             ... "http://rightsstatements.org/vocab/InC/1.0/", "ja")
-            "No label for http://rightsstatements.org/vocab/InC/1.0/ in ja."
+            'No label for http://rightsstatements.org/vocab/InC/1.0/ in ja.'
 
         """
         result = f"No label for {subject} in {language_tag}."
@@ -193,11 +193,3 @@ class RDFInquisitor:
                 (self.__convert_fragment(rdf_class), RDF.type, None)
             )
         ]
-
-
-if __name__ == "__main__":
-    print(
-        RDFInquisitor(
-            "http://rightsstatements.org/vocab/InC/1.0/"
-        ).get_label_by_language("http://rightsstatements.org/vocab/InC/1.0/", "ja")
-    )
