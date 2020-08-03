@@ -18,8 +18,8 @@ class RDFInquisitor:
 
     def __request_data(self):
         headers = {
-            "Accept": "text/turtle, application/turtle, application/x-turtle, application/json, text/json, text/n3,"
-            "text/rdf+n3, application/rdf+n3, application/rdf+xml, application/n-triples"
+            "Accept": "text/turtle, application/turtle, application/x-turtle, text/n3,"
+            "text/rdf+n3, application/rdf+n3, application/rdf+xml, application/n-triples, application/json, text/json,"
         }
         return requests.get(self.uri, headers=headers)
 
