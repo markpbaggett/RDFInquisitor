@@ -77,6 +77,34 @@ class RDFInquisitor:
             rdf.write(self.rdf)
         return f"File was successfully serialized as {path}{mimetypes.guess_extension(self.content_type)}"
 
+    def get_label_by_language(self, subject, language_tag):
+        """Get the label of a subject in a specific language.
+
+        Requires a subject and a language code and returns the label in that language or a message saying the label in
+        that language could not be found.
+
+        Args:
+            subject (str): The URI of the subject being queried.
+            language_tag (str): The IETF language tag for the label.
+
+        Returns:
+            str: Either the label or a message indicating that no label could be found.
+
+        Examples:
+            >>> RDFInquisitor("http://rightsstatements.org/vocab/InC/1.0/").get_label_by_language("http://rightsstatements.org/vocab/InC/1.0/", "en")
+            "In Copyright"
+
+            >>> RDFInquisitor("http://rightsstatements.org/vocab/InC/1.0/").get_label_by_language("http://rightsstatements.org/vocab/InC/1.0/", "ja")
+            "No label for http://rightsstatements.org/vocab/InC/1.0/ in ja."
+
+        """
+        result = f"No label for {subject} in {language_tag}."
+        labels = self.get_labels(subject)
+        for label in labels:
+            if label.language == language_tag:
+                result = str(label)
+        return result
+
     def get_labels(self, subject=None):
         """Get labels from your graph.
 
@@ -164,4 +192,8 @@ class RDFInquisitor:
 
 
 if __name__ == "__main__":
-    print(RDFInquisitor("http://rightsstatements.org/vocab/InC/1.0/").get_types())
+    print(
+        RDFInquisitor(
+            "http://rightsstatements.org/vocab/InC/1.0/"
+        ).get_label_by_language("http://rightsstatements.org/vocab/InC/1.0/", "ja")
+    )
