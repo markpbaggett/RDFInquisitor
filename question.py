@@ -66,7 +66,7 @@ class RDFInquisitor:
 
         Args:
             path (str): Required.  The path with filename (no extension) for where to serialize your file.
-            format (str): Optional. The format you want to serialize your rdf as.
+            format (str): Optional. The format you want to serialize your rdf as (ttl, xml, json-ld, nt).
 
         Returns:
             str: A message stating where the file was serialized.
