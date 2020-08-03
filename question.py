@@ -1,7 +1,6 @@
 import requests
 from rdflib import Graph, URIRef, RDFS, Literal
 from rdflib.namespace import RDF, SKOS
-import io
 import mimetypes
 
 
@@ -27,7 +26,7 @@ class RDFInquisitor:
         if "json" in self.content_type:
             return Graph().parse(data=self.rdf, format="json-ld")
         else:
-            return Graph().parse(io.StringIO(self.rdf), format=self.content_type)
+            return Graph().parse(data=self.rdf, format=self.content_type)
 
     @staticmethod
     def __get_content_type(content_type):
