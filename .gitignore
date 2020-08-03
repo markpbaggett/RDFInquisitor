@@ -1,1 +1,5 @@
 .idea
+*.xml
+*.ttl
+*.json-ld
+*.nt
