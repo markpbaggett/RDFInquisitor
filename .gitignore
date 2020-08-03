@@ -3,3 +3,5 @@
 *.ttl
 *.json-ld
 *.nt
+__pycache__/*
+inquisitor/__pycache__/
