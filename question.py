@@ -59,14 +59,14 @@ class RDFInquisitor:
         else:
             return Literal(fragment)
 
-    def download_rdf(self, path, format="ttl"):
+    def download_rdf(self, path, file_format="ttl"):
         """Download the negotiated RDF to a specific path.
 
         Requires a path and serializes the negotiated RDF from a web server to disk.
 
         Args:
             path (str): Required.  The path with filename (no extension) for where to serialize your file.
-            format (str): Optional. The format you want to serialize your rdf as (ttl, xml, json-ld, nt).
+            file_format (str): Optional. The format you want to serialize your rdf as (ttl, xml, json-ld, nt).
 
         Returns:
             str: A message stating where the file was serialized.
@@ -88,9 +88,9 @@ class RDFInquisitor:
             'File was successfully serialized as rdf/dcterms.nt'
 
         """
-        with open(f"{path}.{format}", "wb") as rdf:
-            rdf.write(self.graph.serialize(format=format, indent=4))
-        return f"File was successfully serialized as {path}.{format}"
+        with open(f"{path}.{file_format}", "wb") as rdf:
+            rdf.write(self.graph.serialize(format=file_format, indent=4))
+        return f"File was successfully serialized as {path}.{file_format}"
 
     def get_label_by_language(self, subject, language_tag):
         """Get the label of a subject in a specific language.
