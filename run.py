@@ -11,7 +11,8 @@ if __name__ == "__main__":
         "-o",
         "--operation",
         dest="operation",
-        help="Operation you want to run: download_rdf, get_labels, get_label_by_lang, get_types, get_range",
+        help="Operation you want to run: download_rdf, get_labels, get_label_by_lang, get_types, get_range,"
+        "recurse_types",
         required=True,
     )
     parser.add_argument(
@@ -62,5 +63,7 @@ if __name__ == "__main__":
             print(x.get_types(args.extra))
         else:
             print(x.get_types())
+    elif args.operation == "recurse_types":
+        print(x.recurse_types())
     else:
         print("Operation not valid.")
