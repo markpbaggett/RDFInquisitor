@@ -213,3 +213,29 @@ class RDFInquisitor:
                 (self.__convert_fragment(rdf_class), RDF.type, None)
             )
         ]
+    
+    def recurse_types(self, _starting_types=None):
+        """Get the types of a class and the types it inherits.
+
+        Recursively pull back all inherited types for the subject of a piece of RDF.
+
+        Returns:
+            list: A list of all inherited types.
+
+        Example:
+            >>> RDFInquisitor("http://rightsstatements.org/vocab/InC/1.0/").recurse_types()
+            ['http://www.w3.org/2004/02/skos/core#Concept', 'http://www.w3.org/2002/07/owl#Class',
+            'http://www.w3.org/2000/01/rdf-schema#Class', 'http://purl.org/dc/terms/RightsStatement']
+
+        """
+        if _starting_types is None:
+            all_types = []
+        else:
+            all_types = _starting_types
+        initial_types = RDFInquisitor(self.uri).get_types(self.uri)
+        for unique in initial_types:
+            if unique not in all_types:
+                print(unique)
+                all_types.append(unique)
+                RDFInquisitor(unique).recurse_types(all_types)
+        return all_types
