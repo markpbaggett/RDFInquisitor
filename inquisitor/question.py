@@ -222,7 +222,7 @@ class RDFInquisitor:
             )
         ]
 
-    def serialize_fragment(self, subject, path, file_format="ttl"):
+    def serialize_fragment(self, path, subject="", file_format="ttl"):
         """Serialize to disk a RDF fragment.
 
         While download_rdf() downloads the entire RDF negotiated from a web server, this method serializes a particular
@@ -248,6 +248,8 @@ class RDFInquisitor:
             'File was successfully serialized as thompson.ttl'
 
         """
+        if subject == "":
+            subject = self.uri
         test_fragment = [
             (s, p, o)
             for s, p, o in self.graph.triples(
