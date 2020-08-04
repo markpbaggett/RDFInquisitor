@@ -222,6 +222,45 @@ class RDFInquisitor:
             )
         ]
 
+    def serialize_fragment(self, subject, path, file_format="ttl"):
+        """Serialize to disk a RDF fragment.
+
+        While download_rdf() downloads the entire RDF negotiated from a web server, this method serializes a particular
+        fragment.  This can be useful when you're working with an ontology that uses Fragment Identifiers.
+
+        Todo: If the fragment contains blank nodes, the content of the nodes are returned empty.
+
+        Args:
+             subject (str): The subject URI that you want to serialize.
+             path (str):  The place on disk you want to serialize things (without extension).
+             file_format (str): The format you want to serialize in. Defaults to ttl.
+
+        Returns:
+            str: A message stating where the file was serialized.
+
+        Examples:
+            >>> RDFInquisitor("http://purl.org/dc/terms/modified").serialize_fragment(
+            ... "http://purl.org/dc/terms/modified", "modified", "ttl")
+            'File was successfully serialized as modified.ttl'
+
+            >>> RDFInquisitor("http://id.loc.gov/authorities/names/no2018075117").serialize_fragment(
+            ... "http://id.loc.gov/authorities/names/no2018075117", "thompson", "ttl")
+            'File was successfully serialized as thompson.ttl'
+
+        """
+        test_fragment = [
+            (s, p, o)
+            for s, p, o in self.graph.triples(
+                (self.__convert_fragment(subject), None, None)
+            )
+        ]
+        g = Graph()
+        for fragment in test_fragment:
+            g.add(fragment)
+        with open(f"{path}.{file_format}", "wb") as rdf:
+            rdf.write(g.serialize(format=file_format, indent=4))
+        return f"File was successfully serialized as {path}.{file_format}"
+
     def get_domain(self, rdf_property):
         """Returns the domain of a property if one exists.
 
