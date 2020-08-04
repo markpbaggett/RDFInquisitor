@@ -235,7 +235,6 @@ class RDFInquisitor:
         initial_types = RDFInquisitor(self.uri).get_types(self.uri)
         for unique in initial_types:
             if unique not in all_types:
-                print(unique)
                 all_types.append(unique)
                 RDFInquisitor(unique).recurse_types(all_types)
         return all_types
