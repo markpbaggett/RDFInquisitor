@@ -213,7 +213,26 @@ class RDFInquisitor:
                 (self.__convert_fragment(rdf_class), RDF.type, None)
             )
         ]
-    
+
+    def get_domain(self, rdf_property):
+        """Returns the domain of a property if one exists.
+
+        Requires an RDF property and returns a list of domains if they exist.
+
+        Args:
+            rdf_property (str): The full URI of your RDF property.
+
+        Returns:
+            list: A list of domains as URI strings.
+
+        """
+        return [
+            str(o)
+            for s, p, o in self.graph.triples(
+                (self.__convert_fragment(rdf_property), RDFS.domain, None)
+            )
+        ]
+
     def recurse_types(self, _starting_types=None):
         """Get the types of a class and the types it inherits.
 
