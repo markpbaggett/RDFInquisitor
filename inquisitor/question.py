@@ -59,6 +59,14 @@ class RDFInquisitor:
         else:
             return Literal(fragment)
 
+    def __get_objects(self, subject=None, predicate=None):
+        return [
+            o
+            for s, p, o in self.graph.triples(
+                self.__convert_fragment(subject), predicate, None
+            )
+        ]
+
     def download_rdf(self, path, file_format="ttl"):
         """Download the negotiated RDF to a specific path.
 
