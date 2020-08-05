@@ -144,14 +144,17 @@ class RDFInquisitor:
 
         Examples:
             >>> RDFInquisitor("http://rightsstatements.org/vocab/InC/1.0/").get_labels()
-            [rdflib.term.Literal('In Copyright', lang='en'), rdflib.term.Literal('Auteursrechtelijk beschermd',
-            lang='nl'), rdflib.term.Literal('Kehtiv autoriõigus', lang='et'),
-            rdflib.term.Literal('Autorių teisės saugomos', lang='lt'), rdflib.term.Literal('प्रतिलिप्यधिकार (कॉपीराइट) में',
-            lang='hi'), rdflib.term.Literal('Objęty pełną ochroną prawnoautorską', lang='pl'),
-            rdflib.term.Literal('Tekijänoikeuden piirissä', lang='fi'), rdflib.term.Literal('Underkastad upphovsrätt',
-            lang='sv-fi'), rdflib.term.Literal("Protégé par le droit d'auteur", lang='fr'),
-            rdflib.term.Literal('Urheberrechtsschutz', lang='de'), rdflib.term.Literal('Protegido por derecho de autor',
-            lang='es')]
+            ... #doctest: +NORMALIZE_WHITESPACE
+            [rdflib.term.Literal('Urheberrechtsschutz', lang='de'), rdflib.term.Literal('In Copyright', lang='en'),
+            rdflib.term.Literal('Protegido por derecho de autor', lang='es'),
+            rdflib.term.Literal('Kehtiv autoriõigus', lang='et'),
+            rdflib.term.Literal('Tekijänoikeuden piirissä', lang='fi'),
+            rdflib.term.Literal("Protégé par le droit d'auteur", lang='fr'),
+            rdflib.term.Literal('प्रतिलिप्यधिकार (कॉपीराइट) में', lang='hi'),
+            rdflib.term.Literal('Autorių teisės saugomos', lang='lt'),
+            rdflib.term.Literal('Auteursrechtelijk beschermd', lang='nl'),
+            rdflib.term.Literal('Objęty pełną ochroną prawnoautorską', lang='pl'),
+            rdflib.term.Literal('Underkastad upphovsrätt', lang='sv-fi')]
 
             >>> RDFInquisitor("http://purl.org/dc/terms/valid").get_labels("http://purl.org/dc/terms/valid")
             [rdflib.term.Literal('Date Valid', lang='en')]
@@ -166,7 +169,7 @@ class RDFInquisitor:
             (self.__convert_fragment(subject), RDFS.label, None)
         ):
             labels.append(o)
-        return labels
+        return sorted(labels)
 
     def get_range(self, rdf_property=None):
         """Get range of properties from your graph.
@@ -215,12 +218,14 @@ class RDFInquisitor:
             ['http://purl.org/dc/terms/RightsStatement', 'http://www.w3.org/2004/02/skos/core#Concept']
 
         """
-        return [
-            str(o)
-            for s, p, o in self.graph.triples(
-                (self.__convert_fragment(rdf_class), RDF.type, None)
-            )
-        ]
+        return sorted(
+            [
+                str(o)
+                for s, p, o in self.graph.triples(
+                    (self.__convert_fragment(rdf_class), RDF.type, None)
+                )
+            ]
+        )
 
     def serialize_fragment(self, path, subject="", file_format="ttl"):
         """Serialize to disk a RDF fragment.
@@ -292,8 +297,11 @@ class RDFInquisitor:
 
         Example:
             >>> RDFInquisitor("http://rightsstatements.org/vocab/InC/1.0/").recurse_types()
-            ['http://www.w3.org/2004/02/skos/core#Concept', 'http://www.w3.org/2002/07/owl#Class',
-            'http://www.w3.org/2000/01/rdf-schema#Class', 'http://purl.org/dc/terms/RightsStatement']
+            ... #doctest: +NORMALIZE_WHITESPACE
+            ['http://purl.org/dc/terms/RightsStatement',
+            'http://www.w3.org/2000/01/rdf-schema#Class',
+            'http://www.w3.org/2002/07/owl#Class',
+            'http://www.w3.org/2004/02/skos/core#Concept']
 
         """
         if _starting_types is None:
@@ -305,7 +313,7 @@ class RDFInquisitor:
             if unique not in all_types:
                 all_types.append(unique)
                 RDFInquisitor(unique).recurse_types(all_types)
-        return all_types
+        return sorted(all_types)
 
 
 if __name__ == "__main__":
