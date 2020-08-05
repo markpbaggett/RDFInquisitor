@@ -239,13 +239,13 @@ class RDFInquisitor:
             str: A message stating where the file was serialized.
 
         Examples:
-            >>> RDFInquisitor("http://purl.org/dc/terms/modified").serialize_fragment(
-            ... "http://purl.org/dc/terms/modified", "modified", "ttl")
-            'File was successfully serialized as modified.ttl'
+            >>> RDFInquisitor("http://purl.org/dc/terms/modified").serialize_fragment("../rdf/modified",
+            ... "http://purl.org/dc/terms/modified", "ttl")
+            'File was successfully serialized as ../rdf/modified.ttl'
 
             >>> RDFInquisitor("http://id.loc.gov/authorities/names/no2018075117").serialize_fragment(
-            ... "http://id.loc.gov/authorities/names/no2018075117", "thompson", "ttl")
-            'File was successfully serialized as thompson.ttl'
+            ... "../rdf/thompson", "http://id.loc.gov/authorities/names/no2018075117", "ttl")
+            'File was successfully serialized as ../rdf/thompson.ttl'
 
         """
         if subject == "":
