@@ -80,19 +80,19 @@ class RDFInquisitor:
             str: A message stating where the file was serialized.
 
         Example:
-            >>> RDFInquisitor("http://rightsstatements.org/vocab/InC/1.0/").download_rdf("rdf/dcterms")
+            >>> RDFInquisitor("http://rightsstatements.org/vocab/InC/1.0/").download_rdf("../rdf/InC")
             'File was successfully serialized as rdf/dcterms.ttl'
 
-            >>> RDFInquisitor("http://rightsstatements.org/vocab/InC/1.0/").download_rdf("rdf/dcterms", "ttl")
+            >>> RDFInquisitor("http://rightsstatements.org/vocab/InC/1.0/").download_rdf("../rdf/InC", "ttl")
             'File was successfully serialized as rdf/dcterms.ttl'
 
-            >>> RDFInquisitor("http://rightsstatements.org/vocab/InC/1.0/").download_rdf("rdf/dcterms", "json-ld")
+            >>> RDFInquisitor("http://rightsstatements.org/vocab/InC/1.0/").download_rdf("../rdf/InC", "json-ld")
             'File was successfully serialized as rdf/dcterms.json-ld'
 
-            >>> RDFInquisitor("http://rightsstatements.org/vocab/InC/1.0/").download_rdf("rdf/dcterms", "xml")
+            >>> RDFInquisitor("http://rightsstatements.org/vocab/InC/1.0/").download_rdf("../rdf/InC", "xml")
             'File was successfully serialized as rdf/dcterms.xml'
 
-            >>> RDFInquisitor("http://rightsstatements.org/vocab/InC/1.0/").download_rdf("rdf/dcterms", "nt")
+            >>> RDFInquisitor("http://rightsstatements.org/vocab/InC/1.0/").download_rdf("../rdf/InC", "nt")
             'File was successfully serialized as rdf/dcterms.nt'
 
         """
@@ -306,3 +306,9 @@ class RDFInquisitor:
                 all_types.append(unique)
                 RDFInquisitor(unique).recurse_types(all_types)
         return all_types
+
+
+if __name__ == "__main__":
+    import doctest
+
+    doctest.testmod()
