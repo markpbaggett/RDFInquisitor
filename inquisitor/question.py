@@ -81,19 +81,19 @@ class RDFInquisitor:
 
         Example:
             >>> RDFInquisitor("http://rightsstatements.org/vocab/InC/1.0/").download_rdf("../rdf/InC")
-            'File was successfully serialized as rdf/dcterms.ttl'
+            'File was successfully serialized as ../rdf/InC.ttl'
 
             >>> RDFInquisitor("http://rightsstatements.org/vocab/InC/1.0/").download_rdf("../rdf/InC", "ttl")
-            'File was successfully serialized as rdf/dcterms.ttl'
+            'File was successfully serialized as ../rdf/InC.ttl'
 
             >>> RDFInquisitor("http://rightsstatements.org/vocab/InC/1.0/").download_rdf("../rdf/InC", "json-ld")
-            'File was successfully serialized as rdf/dcterms.json-ld'
+            'File was successfully serialized as ../rdf/InC.json-ld'
 
             >>> RDFInquisitor("http://rightsstatements.org/vocab/InC/1.0/").download_rdf("../rdf/InC", "xml")
-            'File was successfully serialized as rdf/dcterms.xml'
+            'File was successfully serialized as ../rdf/InC.xml'
 
             >>> RDFInquisitor("http://rightsstatements.org/vocab/InC/1.0/").download_rdf("../rdf/InC", "nt")
-            'File was successfully serialized as rdf/dcterms.nt'
+            'File was successfully serialized as ../rdf/InC.nt'
 
         """
         with open(f"{path}.{file_format}", "wb") as rdf:
