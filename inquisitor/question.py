@@ -287,6 +287,31 @@ class RDFInquisitor:
             )
         ]
 
+    def get_objects(self, subject=None, predicate=None):
+        """Get objects matching a query.
+
+        Accepts a subject and a predicate and returns matching objects.
+
+        Args:
+            subject (str): The subject or your query as a URI.
+            predicate (str): The predicate of your query as a URI.
+
+        Returns:
+            list: A list of objects.
+
+        Examples:
+            >>> RDFInquisitor("http://purl.org/dc/terms/accessRights").get_objects(
+            ... "http://purl.org/dc/terms/accessRights", "http://purl.org/dc/dcam/rangeIncludes")
+            [rdflib.term.URIRef('http://purl.org/dc/terms/RightsStatement')]
+
+        """
+        return [
+            o
+            for s, p, o in self.graph.triples(
+                (self.__convert_fragment(subject), self.__convert_fragment(predicate), None)
+            )
+        ]
+
     def recurse_types(self, _starting_types=None):
         """Get the types of a class and the types it inherits.
 
@@ -318,5 +343,4 @@ class RDFInquisitor:
 
 if __name__ == "__main__":
     import doctest
-
     doctest.testmod()
