@@ -12,4 +12,6 @@ jobs:
         with:
           command: install -d # Install all dependencies, including development ones
       - name: Test Doctests with Pytest
-        run: pytest inquisitor/question.py --doctest-modules
+        uses: VaultVulp/action-pipenv@v2.0.1
+        with:
+          command: run pytest inquisitor/question.py --doctest-modules
