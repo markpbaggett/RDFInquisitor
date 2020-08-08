@@ -11,6 +11,8 @@ requests = "*"
 rdflib = "*"
 rdflib-jsonld = "*"
 argparse = "*"
+pytest = "*"
+pytest-cov = "*"
 
 [requires]
 python_version = "3.8"
