@@ -80,20 +80,20 @@ class RDFInquisitor:
             str: A message stating where the file was serialized.
 
         Example:
-            >>> RDFInquisitor("http://rightsstatements.org/vocab/InC/1.0/").download_rdf("../rdf/InC")
-            'File was successfully serialized as ../rdf/InC.ttl'
+            >>> RDFInquisitor("http://rightsstatements.org/vocab/InC/1.0/").download_rdf("InC")
+            'File was successfully serialized as InC.ttl'
 
-            >>> RDFInquisitor("http://rightsstatements.org/vocab/InC/1.0/").download_rdf("../rdf/InC", "ttl")
-            'File was successfully serialized as ../rdf/InC.ttl'
+            >>> RDFInquisitor("http://rightsstatements.org/vocab/InC/1.0/").download_rdf("InC", "ttl")
+            'File was successfully serialized as InC.ttl'
 
-            >>> RDFInquisitor("http://rightsstatements.org/vocab/InC/1.0/").download_rdf("../rdf/InC", "json-ld")
-            'File was successfully serialized as ../rdf/InC.json-ld'
+            >>> RDFInquisitor("http://rightsstatements.org/vocab/InC/1.0/").download_rdf("InC", "json-ld")
+            'File was successfully serialized as InC.json-ld'
 
-            >>> RDFInquisitor("http://rightsstatements.org/vocab/InC/1.0/").download_rdf("../rdf/InC", "xml")
-            'File was successfully serialized as ../rdf/InC.xml'
+            >>> RDFInquisitor("http://rightsstatements.org/vocab/InC/1.0/").download_rdf("InC", "xml")
+            'File was successfully serialized as InC.xml'
 
-            >>> RDFInquisitor("http://rightsstatements.org/vocab/InC/1.0/").download_rdf("../rdf/InC", "nt")
-            'File was successfully serialized as ../rdf/InC.nt'
+            >>> RDFInquisitor("http://rightsstatements.org/vocab/InC/1.0/").download_rdf("InC", "nt")
+            'File was successfully serialized as InC.nt'
 
         """
         with open(f"{path}.{file_format}", "wb") as rdf:
@@ -244,13 +244,13 @@ class RDFInquisitor:
             str: A message stating where the file was serialized.
 
         Examples:
-            >>> RDFInquisitor("http://purl.org/dc/terms/modified").serialize_fragment("../rdf/modified",
+            >>> RDFInquisitor("http://purl.org/dc/terms/modified").serialize_fragment("modified",
             ... "http://purl.org/dc/terms/modified", "ttl")
-            'File was successfully serialized as ../rdf/modified.ttl'
+            'File was successfully serialized as modified.ttl'
 
             >>> RDFInquisitor("http://id.loc.gov/authorities/names/no2018075117").serialize_fragment(
-            ... "../rdf/thompson", "http://id.loc.gov/authorities/names/no2018075117", "ttl")
-            'File was successfully serialized as ../rdf/thompson.ttl'
+            ... "thompson", "http://id.loc.gov/authorities/names/no2018075117", "ttl")
+            'File was successfully serialized as thompson.ttl'
 
         """
         if subject == "":
