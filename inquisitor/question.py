@@ -269,7 +269,7 @@ class RDFInquisitor:
         return f"File was successfully serialized as {path}.{file_format}"
 
     def get_domain(self, rdf_property):
-        """Returns the domain of a property if one exists.
+        """Returns the rdfs:domain of a property if one exists.
 
         Requires an RDF property and returns a list of domains if they exist.
 
@@ -278,6 +278,15 @@ class RDFInquisitor:
 
         Returns:
             list: A list of domains as URI strings.
+
+        Examples:
+            >>> RDFInquisitor("http://purl.org/ontology/mo/Orchestration").get_domain(
+            ... "http://purl.org/ontology/mo/collaborated_with")
+            ['http://xmlns.com/foaf/0.1/Agent']
+
+            >>> RDFInquisitor("http://purl.org/dc/terms/accrualMethod").get_domain(
+            ... "http://purl.org/dc/terms/accrualMethod")
+            ['http://purl.org/dc/dcmitype/Collection']
 
         """
         return [
