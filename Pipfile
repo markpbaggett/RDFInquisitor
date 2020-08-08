@@ -5,14 +5,14 @@ verify_ssl = true
 
 [dev-packages]
 black = "*"
+pytest = "*"
+pytest-cov = "*"
 
 [packages]
 requests = "*"
 rdflib = "*"
 rdflib-jsonld = "*"
 argparse = "*"
-pytest = "*"
-pytest-cov = "*"
 
 [requires]
 python_version = "3.8"
