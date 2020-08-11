@@ -4,6 +4,8 @@ from inquisitor.question import RDFInquisitor
 from pygments import highlight
 from pygments.formatters import HtmlFormatter
 from pygments.lexers.rdf import TurtleLexer
+from pygments.lexers.data import JsonLdLexer
+from pygments.lexers.html import XmlLexer
 from .forms import RDFLookup
 
 
@@ -20,9 +22,15 @@ def lookup():
         code = RDFInquisitor(form.uri.data).flaskerize_rdf(
             form.subject.data, form.language.data
         )
+        lexers = {
+            "ttl": TurtleLexer(),
+            "json-ld": JsonLdLexer(),
+            "xml": XmlLexer(),
+            "nt": TurtleLexer(),
+        }
         results = highlight(
             code,
-            TurtleLexer(),
+            lexers[form.language.data],
             HtmlFormatter(linenos=True, style="colorful", full=True),
         )
         return render_template("lookup.html", results=Markup(results), form=form)
