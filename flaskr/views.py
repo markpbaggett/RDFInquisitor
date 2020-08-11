@@ -61,8 +61,36 @@ def ranges():
     form = QueryProperties(request.form)
     if request.method == "POST":
         if form.property.data:
-            return render_template("ranges.html", results=RDFInquisitor(form.uri.data).get_range(form.property.data), form=form)
+            return render_template(
+                "ranges.html",
+                results=RDFInquisitor(form.uri.data).get_range(form.property.data),
+                form=form,
+            )
         else:
-            return render_template("ranges.html", results=RDFInquisitor(form.uri.data).get_range(), form=form)
+            return render_template(
+                "ranges.html",
+                results=RDFInquisitor(form.uri.data).get_range(),
+                form=form,
+            )
     else:
         return render_template("ranges.html", form=form)
+
+
+@app.route("/domains", methods=["GET", "POST"])
+def domains():
+    form = QueryProperties(request.form)
+    if request.method == "POST":
+        if form.property.data:
+            return render_template(
+                "domains.html",
+                results=RDFInquisitor(form.uri.data).get_range(form.property.data),
+                form=form,
+            )
+        else:
+            return render_template(
+                "domains.html",
+                results=RDFInquisitor(form.uri.data).get_range(),
+                form=form,
+            )
+    else:
+        return render_template("domains.html", form=form)
