@@ -7,8 +7,8 @@ from pygments.lexers.rdf import TurtleLexer
 from .forms import RDFLookup
 
 
-@app.route("/", methods=["GET", "POST"])
-@app.route("/index", methods=["GET", "POST"])
+@app.route("/", methods=["GET"])
+@app.route("/index", methods=["GET"])
 def index():
     return render_template("index.html")
 
