@@ -13,6 +13,11 @@ requests = "*"
 rdflib = "*"
 rdflib-jsonld = "*"
 argparse = "*"
+flask = "*"
+pygments = "*"
+flask-bootstrap = "*"
+wtforms = "*"
+flask-wtf = "*"
 
 [requires]
 python_version = "3.8"
