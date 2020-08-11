@@ -6,7 +6,7 @@ from pygments.formatters import HtmlFormatter
 from pygments.lexers.rdf import TurtleLexer
 from pygments.lexers.data import JsonLdLexer
 from pygments.lexers.html import XmlLexer
-from .forms import RDFLookup, LabelLookup
+from .forms import RDFLookup, LabelLookup, QueryProperties
 
 
 @app.route("/", methods=["GET"])
@@ -54,3 +54,15 @@ def labels():
             return render_template("labels.html", results=labels, form=form)
     else:
         return render_template("labels.html", form=form)
+
+
+@app.route("/ranges", methods=["GET", "POST"])
+def ranges():
+    form = QueryProperties(request.form)
+    if request.method == "POST":
+        if form.property.data:
+            return render_template("ranges.html", results=RDFInquisitor(form.uri.data).get_range(form.property.data), form=form)
+        else:
+            return render_template("ranges.html", results=RDFInquisitor(form.uri.data).get_range(), form=form)
+    else:
+        return render_template("ranges.html", form=form)
