@@ -5,3 +5,4 @@
 *.nt
 __pycache__/*
 inquisitor/__pycache__/
+flaskr/__pycache__/*
