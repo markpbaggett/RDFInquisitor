@@ -4,14 +4,18 @@ from inquisitor.question import RDFInquisitor
 from pygments import highlight
 from pygments.formatters import HtmlFormatter
 from pygments.lexers.rdf import TurtleLexer
-from .forms import MyInputBox
+from .forms import RDFLookup
 
 
 @app.route("/", methods=["GET", "POST"])
 @app.route("/index", methods=["GET", "POST"])
-@app.route("/lookup", methods=["GET", "POST"])
 def index():
-    form = MyInputBox(request.form)
+    return render_template("index.html")
+
+
+@app.route("/lookup", methods=["GET", "POST"])
+def lookup():
+    form = RDFLookup(request.form)
     if request.method == "POST":
         code = RDFInquisitor(form.uri.data).flaskerize_rdf(
             form.subject.data, form.language.data

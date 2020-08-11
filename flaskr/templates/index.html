@@ -1,5 +1,5 @@
 {% extends "bootstrap/base.html" %}
-{% block title %}RDF Inquisitor: RDF Lookup{% endblock %}
+{% block title %}RDF Inquisitor{% endblock %}
 
 {% block navbar %}
     <div class="jumbotron text-center">
@@ -24,7 +24,7 @@
                         <!-- Collect the nav links, forms, and other content for toggling -->
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                             <ul class="nav navbar-nav">
-                                <li class="active"><a href="/lookup">RDF Lookup <span class="sr-only">(current)</span></a>
+                                <li><a href="/lookup">RDF Lookup</a>
                                 </li>
                                 <li><a href="/visualize">Visualize RDF</a></li>
                                 <li><a href="/labels">Get Label(s)</a></li>
@@ -45,26 +45,21 @@
 
 {% block content %}
 <div class="formwrapper">
-    <div class="formwrapper">
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-12 col-md-12">
-                    <h1>RDF Lookup</h1>
-                        <form action="/lookup" method="post" name="search" class="navbar-form navbar-left">
-                            <div class="form-group">
-                                {{ form.uri(class="form-control", size=45, placeholder="Specify URI") }}
-                                {{ form.subject(class="form-control", size=45, placeholder="Optionally specify subject URI") }}
-                                {{ form.language()}}
-                            </div>
-                            {{ form.submit }}
-                            <input type="submit" value="Go">
-                        </form>
-                        {% if results %}
-                        {{results}}
-                        {% endif %}
-                </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-md-12">
+                <h1>About</h1>
+                <p>RDF Inquisitor is a tool designed to help you question the RDF that your URIs point at. Unlike
+                other tools, RDF Inquisitor assumes that your URIs adhere to the best practices described in definitive
+                works like <a href="https://www.w3.org/TR/swbp-vocab-pub/">Best Practice Recipes for Publishing RDF Vocabularies</a>,
+                <a href="http://wifo5-03.informatik.uni-mannheim.de/bizer/pub/LinkedDataTutorial/">How to Publish Linked Data on the Web</a>, and
+                <a href="https://www.w3.org/TR/cooluris/">Cool URIs for the Semantic Web</a>.</p>
+                <p>Checkout the <a href="https://github.com/markpbaggett/RDFInquisitor">project on GitHub</a> for
+                documentation and more information.</p>
             </div>
         </div>
     </div>
 </div>
+
+
 {% endblock %}

@@ -3,7 +3,7 @@ from wtforms import StringField, SelectField
 from wtforms.validators import DataRequired, URL
 
 
-class MyInputBox(FlaskForm):
+class RDFLookup(FlaskForm):
     uri = StringField("uri", validators=[URL()])
     subject = StringField("subject")
     language = SelectField(
