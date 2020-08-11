@@ -100,6 +100,10 @@ class RDFInquisitor:
             rdf.write(self.graph.serialize(format=file_format, indent=4))
         return f"File was successfully serialized as {path}.{file_format}"
 
+    def flaskerize_rdf(self, file_format="ttl"):
+        """Clean up RDF for use with Flask."""
+        return self.graph.serialize(format=file_format, indent=4)
+
     def get_label_by_language(self, subject, language_tag):
         """Get the label of a subject in a specific language.
 
