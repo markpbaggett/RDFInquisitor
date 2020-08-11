@@ -6,7 +6,7 @@ from pygments.formatters import HtmlFormatter
 from pygments.lexers.rdf import TurtleLexer
 from pygments.lexers.data import JsonLdLexer
 from pygments.lexers.html import XmlLexer
-from .forms import RDFLookup
+from .forms import RDFLookup, LabelLookup
 
 
 @app.route("/", methods=["GET"])
@@ -36,3 +36,15 @@ def lookup():
         return render_template("lookup.html", results=Markup(results), form=form)
     else:
         return render_template("lookup.html", form=form)
+
+
+@app.route("/labels", methods=["GET", "POST"])
+def labels():
+    form = LabelLookup(request.form)
+    if request.method == "POST":
+        if form.language.data == "" or form.language.data is None:
+            labels = RDFInquisitor(form.uri.data).get_labels()
+            print(labels[1].language)
+            return render_template("labels.html", results=labels, form=form)
+    else:
+        return render_template("labels.html", form=form)
