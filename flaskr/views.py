@@ -44,7 +44,13 @@ def labels():
     if request.method == "POST":
         if form.language.data == "" or form.language.data is None:
             labels = RDFInquisitor(form.uri.data).get_labels()
-            print(labels[1].language)
+            return render_template("labels.html", results=labels, form=form)
+        else:
+            labels = [
+                RDFInquisitor(form.uri.data).get_label_by_language(
+                    form.uri.data, form.language.data
+                )
+            ]
             return render_template("labels.html", results=labels, form=form)
     else:
         return render_template("labels.html", form=form)
