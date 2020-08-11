@@ -100,9 +100,21 @@ class RDFInquisitor:
             rdf.write(self.graph.serialize(format=file_format, indent=4))
         return f"File was successfully serialized as {path}.{file_format}"
 
-    def flaskerize_rdf(self, file_format="ttl"):
+    def flaskerize_rdf(self, subject, file_format="ttl"):
         """Clean up RDF for use with Flask."""
-        return self.graph.serialize(format=file_format, indent=4)
+        if subject != "":
+            test_fragment = [
+                (s, p, o)
+                for s, p, o in self.graph.triples(
+                    (self.__convert_fragment(subject), None, None)
+                )
+            ]
+            g = Graph()
+            for fragment in test_fragment:
+                g.add(fragment)
+            return g.serialize(format=file_format, indent=4)
+        else:
+            return self.graph.serialize(format=file_format, indent=4)
 
     def get_label_by_language(self, subject, language_tag):
         """Get the label of a subject in a specific language.
@@ -321,7 +333,11 @@ class RDFInquisitor:
         return [
             o
             for s, p, o in self.graph.triples(
-                (self.__convert_fragment(subject), self.__convert_fragment(predicate), None)
+                (
+                    self.__convert_fragment(subject),
+                    self.__convert_fragment(predicate),
+                    None,
+                )
             )
         ]
 
@@ -356,4 +372,5 @@ class RDFInquisitor:
 
 if __name__ == "__main__":
     import doctest
+
     doctest.testmod()
