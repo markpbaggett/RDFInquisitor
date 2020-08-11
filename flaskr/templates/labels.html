@@ -58,24 +58,24 @@
                             {{ form.submit }}
                             <input type="submit" value="Go">
                         </form>
-                        <div class="row col-md-12">
-                            <h3>Results</h3>
-                            <ol>
-                            {% if results %}
-                                {% for result in results %}
-                                {% if result.language%}
-                                    <li>
-                                        {{result}} ({{result.language}})
-                                    </li>
-                                {% else %}
-                                    <li>
-                                        {{result}}
-                                    </li>
-                                {% endif %}
-                                {% endfor %}
-                            {% endif %}
-                            </ol>
-                        </div>
+                        {% if results %}
+                            <div class="row col-md-12">
+                                <h3>Results</h3>
+                                <ol>
+                                    {% for result in results %}
+                                    {% if result.language%}
+                                        <li>
+                                            {{result}} ({{result.language}})
+                                        </li>
+                                    {% else %}
+                                        <li>
+                                            {{result}}
+                                        </li>
+                                    {% endif %}
+                                    {% endfor %}
+                                </ol>
+                            </div>
+                        {% endif %}
                 </div>
             </div>
         </div>
