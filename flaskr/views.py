@@ -94,3 +94,25 @@ def domains():
             )
     else:
         return render_template("domains.html", form=form)
+
+
+@app.route("/objects", methods=["GET", "POST"])
+def objects():
+    form = QueryProperties(request.form)
+    if request.method == "POST":
+        if form.property.data:
+            return render_template(
+                "objects.html",
+                results=RDFInquisitor(form.uri.data).get_objects(
+                    subject=form.uri.data, predicate=form.property.data
+                ),
+                form=form,
+            )
+        else:
+            return render_template(
+                "objects.html",
+                results=RDFInquisitor(form.uri.data).get_objects(subject=form.uri.data),
+                form=form,
+            )
+    else:
+        return render_template("objects.html", form=form)
