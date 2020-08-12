@@ -116,3 +116,15 @@ def objects():
             )
     else:
         return render_template("objects.html", form=form)
+
+@app.route("/types", methods=["GET", "POST"])
+def types():
+    form = QueryProperties(request.form)
+    if request.method == "POST":
+        return render_template(
+            "types.html",
+            results=RDFInquisitor(form.uri.data).recurse_types(),
+            form=form,
+        )
+    else:
+        return render_template("types.html", form=form)
