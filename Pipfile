@@ -18,6 +18,8 @@ pygments = "*"
 flask-bootstrap = "*"
 wtforms = "*"
 flask-wtf = "*"
+graphviz = "*"
+gunicorn = "*"
 
 [requires]
 python_version = "3.8"
