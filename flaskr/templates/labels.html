@@ -60,20 +60,43 @@
                         </form>
                         {% if results %}
                             <div class="row col-md-12">
-                                <h3>Results</h3>
-                                <ol>
-                                    {% for result in results %}
-                                    {% if result.language%}
-                                        <li>
-                                            {{result}} ({{result.language}})
-                                        </li>
-                                    {% else %}
-                                        <li>
-                                            {{result}}
-                                        </li>
-                                    {% endif %}
-                                    {% endfor %}
-                                </ol>
+                                <div class="panel-group">
+                                    <div class="panel panel-success">
+                                        <div class="panel-heading">
+                                            <h3>Results</h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            <ol>
+                                            {% for result in results %}
+                                                {% if result.language%}
+                                                    <li>
+                                                        {{result}} ({{result.language}})
+                                                    </li>
+                                                {% else %}
+                                                    <li>
+                                                    {{result}}
+                                                    </li>
+                                                {% endif %}
+                                            {% endfor %}
+                                            </ol>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {%  else %}
+                            <div class="row col-md-12">
+                                <div class="panel-group">
+                                    <div class="panel panel-info">
+                                        <div class="panel-heading">
+                                            <h3>What does this do?</h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            <p>This operation returns all labels associated with a URI. Unlike the method, you
+                                                can't limit on a particular subject. :facepalm:</p>
+                                            <p>Optionally, you can limit on a specific <a href="https://tools.ietf.org/html/rfc4646#page-56">language code</a>.</p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         {% endif %}
                 </div>
