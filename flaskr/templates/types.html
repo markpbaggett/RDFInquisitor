@@ -59,12 +59,34 @@
                         </form>
                         {% if results %}
                             <div class="row col-md-12">
-                                <h3>Results</h3>
-                                <ol>
-                                    {% for result in results %}
-                                    <li><a href="{{ result }}">{{ result }}</a></li>
-                                    {% endfor %}
-                                </ol>
+                                <div class="panel-group">
+                                    <div class="panel panel-success">
+                                        <div class="panel-heading">
+                                            <h3>Results</h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            <ol>
+                                                {% for result in results %}
+                                                <li><a href="{{ result }}">{{ result }}</a></li>
+                                                {% endfor %}
+                                            </ol>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {%  else %}
+                            <div class="row col-md-12">
+                                <div class="panel-group">
+                                    <div class="panel panel-info">
+                                        <div class="panel-heading">
+                                            <h3>What does this do?</h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            <p>This operation returns the RDF types associated with a URI and all the types that
+                                                URI inherits.</p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         {% endif %}
                 </div>
