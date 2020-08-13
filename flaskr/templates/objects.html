@@ -44,33 +44,54 @@
 {% endblock %}
 
 {% block content %}
-<div class="formwrapper">
     <div class="formwrapper">
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-12 col-md-12">
-                    <h1>Get Objects</h1>
-                        <form action="/objects" method="post" name="search" class="navbar-form navbar-left">
-                            <div class="form-group">
-                                {{ form.uri(class="form-control", size=45, placeholder="Specify URI") }}
-                                {{ form.property(class="form-control", size=45, placeholder="Specify property") }}
-                            </div>
-                            {{ form.submit }}
-                            <input type="submit" value="Go">
-                        </form>
-                        {% if results %}
-                            <div class="row col-md-12">
-                                <h3>Results</h3>
-                                <ol>
-                                    {% for result in results %}
-                                        <li>{{ result }}</li>
-                                    {% endfor %}
-                                </ol>
-                            </div>
-                        {% endif %}
+        <div class="formwrapper">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-md-12">
+                        <h1>Get Objects</h1>
+                            <form action="/objects" method="post" name="search" class="navbar-form navbar-left">
+                                <div class="form-group">
+                                    {{ form.uri(class="form-control", size=45, placeholder="Specify URI") }}
+                                    {{ form.property(class="form-control", size=45, placeholder="Specify property") }}
+                                </div>
+                                {{ form.submit }}
+                                <input type="submit" value="Go">
+                            </form>
+                            {% if results %}
+                                <div class="row col-md-12">
+                                    <div class="panel-group">
+                                        <div class="panel panel-success">
+                                            <div class="panel-heading">
+                                                <h3>Results</h3>
+                                            </div>
+                                            <div class="panel-body">
+                                                <ol>
+                                                    {% for result in results %}
+                                                        <li>{{ result }}</li>
+                                                    {% endfor %}
+                                                </ol>
+                                            </div>
+                                        </div>
+                                    </div>
+                            {%  else %}
+                                <div class="row col-md-12">
+                                    <div class="panel-group">
+                                        <div class="panel panel-info">
+                                            <div class="panel-heading">
+                                                <h3>What does this do?</h3>
+                                            </div>
+                                            <div class="panel-body">
+                                                <p>If you want to find the object of something besides rdfs:domain or
+                                                    rdfs:range, you can use this. </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 {% endblock %}
