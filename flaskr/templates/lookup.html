@@ -61,8 +61,30 @@
                         </form>
                         {% if results %}
                             <div class="row col-md-12">
-                                <h3>Results</h3>
-                                    {{results}}
+                                <div class="panel-group">
+                                        <div class="panel panel-success">
+                                            <div class="panel-heading">
+                                                <h3>Results</h3>
+                                            </div>
+                                            <div class="panel-body">
+                                                {{results}}
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                        {%  else %}
+                            <div class="row col-md-12">
+                                <div class="panel-group">
+                                    <div class="panel panel-info">
+                                        <div class="panel-heading">
+                                            <h3>What does this do?</h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            <p>This operation let's you look at the dereferenceable RDF available from a specific URI via content negotiation.</p>
+                                            <p>If your URI uses <i>fragment identifiers</i>, you can optionally include a subject URI to further limit results.</p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         {% endif %}}
                 </div>
