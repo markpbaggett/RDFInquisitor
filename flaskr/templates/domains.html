@@ -60,12 +60,36 @@
                         </form>
                         {% if results %}
                             <div class="row col-md-12">
-                                <h3>Results</h3>
-                                <ol>
-                                    {% for result in results %}
-                                    <li><a href="{{ result }}">{{ result }}</a></li>
-                                    {% endfor %}
-                                </ol>
+                                <div class="panel-group">
+                                    <div class="panel panel-success">
+                                        <div class="panel-heading">
+                                            <h3>Results</h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            <ol>
+                                                {% for result in results %}
+                                                    <li><a href="{{ result }}">{{ result }}</a></li>
+                                                {% endfor %}
+                                            </ol>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {%  else %}
+                            <div class="row col-md-12">
+                                <div class="panel-group">
+                                    <div class="panel panel-info">
+                                        <div class="panel-heading">
+                                            <h3>What does this do?</h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            <p>This operation returns the required type of the subject of a rdf property
+                                            as stated by a rdfs:domain property.</p>
+                                            <p>Optionally, you can limit on a particular rdf:property if you're dealing
+                                            with a web server that supports fragment identifiers.</p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         {% endif %}
                 </div>
