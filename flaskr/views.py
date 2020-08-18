@@ -44,8 +44,18 @@ def labels():
     form = LabelLookup(request.form)
     if request.method == "POST":
         if form.language.data == "" or form.language.data is None:
-            labels = RDFInquisitor(form.uri.data).get_labels(form.subject.data)
-            return render_template("labels.html", results=labels, form=form)
+            if form.subject.data == "" or form.subject.data is None:
+                return render_template(
+                    "labels.html",
+                    results=RDFInquisitor(form.uri.data).get_labels(),
+                    form=form,
+                )
+            else:
+                return render_template(
+                    "labels.html",
+                    results=RDFInquisitor(form.uri.data).get_labels(form.subject.data),
+                    form=form,
+                )
         else:
             labels = [
                 RDFInquisitor(form.uri.data).get_label_by_language(
@@ -141,5 +151,3 @@ def visualize():
             return render_template("visualize.html", results=code, form=form)
     else:
         return render_template("visualize.html", form=form)
-
-
