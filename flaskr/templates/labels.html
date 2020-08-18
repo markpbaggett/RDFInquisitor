@@ -53,6 +53,7 @@
                         <form action="/labels" method="post" name="search" class="navbar-form navbar-left">
                             <div class="form-group">
                                 {{ form.uri(class="form-control", size=45, placeholder="Specify URI") }}
+                                {{ form.subject(class="form-control", size=45, placeholder="Optionally specify a subject URI") }}
                                 {{ form.language(class="form-control", size=15, placeholder="Language Code") }}
                             </div>
                             {{ form.submit }}

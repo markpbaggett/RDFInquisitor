@@ -20,6 +20,7 @@ class RDFLookup(FlaskForm):
 
 class LabelLookup(FlaskForm):
     uri = StringField("uri", validators=[URL()])
+    subject = StringField("subject")
     language = StringField("language")
 
 

@@ -7,6 +7,7 @@ from pygments.lexers.rdf import TurtleLexer
 from pygments.lexers.data import JsonLdLexer
 from pygments.lexers.html import XmlLexer
 from .forms import RDFLookup, LabelLookup, QueryProperties
+import os
 
 
 @app.route("/", methods=["GET"])
@@ -43,7 +44,7 @@ def labels():
     form = LabelLookup(request.form)
     if request.method == "POST":
         if form.language.data == "" or form.language.data is None:
-            labels = RDFInquisitor(form.uri.data).get_labels()
+            labels = RDFInquisitor(form.uri.data).get_labels(form.subject.data)
             return render_template("labels.html", results=labels, form=form)
         else:
             labels = [
@@ -117,6 +118,7 @@ def objects():
     else:
         return render_template("objects.html", form=form)
 
+
 @app.route("/types", methods=["GET", "POST"])
 def types():
     form = QueryProperties(request.form)
@@ -128,3 +130,16 @@ def types():
         )
     else:
         return render_template("types.html", form=form)
+
+
+@app.route("/visualize", methods=["GET", "POST"])
+def visualize():
+    form = QueryProperties(request.form)
+    if request.method == "POST":
+        code = RDFInquisitor(form.uri.data).visualize()
+        if code == "Success.":
+            return render_template("visualize.html", results=code, form=form)
+    else:
+        return render_template("visualize.html", form=form)
+
+
