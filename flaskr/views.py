@@ -20,21 +20,24 @@ def index():
 def lookup():
     form = RDFLookup(request.form)
     if request.method == "POST":
-        code = RDFInquisitor(form.uri.data).flaskerize_rdf(
-            form.subject.data, form.language.data
-        )
-        lexers = {
-            "ttl": TurtleLexer(),
-            "json-ld": JsonLdLexer(),
-            "xml": XmlLexer(),
-            "nt": TurtleLexer(),
-        }
-        results = highlight(
-            code,
-            lexers[form.language.data],
-            HtmlFormatter(linenos=True, style="colorful", full=True),
-        )
-        return render_template("lookup.html", results=Markup(results), form=form)
+        try:
+            code = RDFInquisitor(form.uri.data).flaskerize_rdf(
+                form.subject.data, form.language.data
+            )
+            lexers = {
+                "ttl": TurtleLexer(),
+                "json-ld": JsonLdLexer(),
+                "xml": XmlLexer(),
+                "nt": TurtleLexer(),
+            }
+            results = highlight(
+                code,
+                lexers[form.language.data],
+                HtmlFormatter(linenos=True, style="colorful", full=True),
+            )
+            return render_template("lookup.html", results=Markup(results), form=form)
+        except ValueError:
+            return render_template("error.html")
     else:
         return render_template("lookup.html", form=form)
 
