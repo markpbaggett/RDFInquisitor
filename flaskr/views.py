@@ -46,26 +46,31 @@ def lookup():
 def labels():
     form = LabelLookup(request.form)
     if request.method == "POST":
-        if form.language.data == "" or form.language.data is None:
-            if form.subject.data == "" or form.subject.data is None:
-                return render_template(
-                    "labels.html",
-                    results=RDFInquisitor(form.uri.data).get_labels(),
-                    form=form,
-                )
+        try:
+            if form.language.data == "" or form.language.data is None:
+                if form.subject.data == "" or form.subject.data is None:
+                    return render_template(
+                        "labels.html",
+                        results=RDFInquisitor(form.uri.data).get_labels(),
+                        form=form,
+                    )
+                else:
+                    return render_template(
+                        "labels.html",
+                        results=RDFInquisitor(form.uri.data).get_labels(
+                            form.subject.data
+                        ),
+                        form=form,
+                    )
             else:
-                return render_template(
-                    "labels.html",
-                    results=RDFInquisitor(form.uri.data).get_labels(form.subject.data),
-                    form=form,
-                )
-        else:
-            labels = [
-                RDFInquisitor(form.uri.data).get_label_by_language(
-                    form.uri.data, form.language.data
-                )
-            ]
-            return render_template("labels.html", results=labels, form=form)
+                labels = [
+                    RDFInquisitor(form.uri.data).get_label_by_language(
+                        form.uri.data, form.language.data
+                    )
+                ]
+                return render_template("labels.html", results=labels, form=form)
+        except ValueError:
+            return render_template("error.html")
     else:
         return render_template("labels.html", form=form)
 
@@ -74,18 +79,21 @@ def labels():
 def ranges():
     form = QueryProperties(request.form)
     if request.method == "POST":
-        if form.property.data:
-            return render_template(
-                "ranges.html",
-                results=RDFInquisitor(form.uri.data).get_range(form.property.data),
-                form=form,
-            )
-        else:
-            return render_template(
-                "ranges.html",
-                results=RDFInquisitor(form.uri.data).get_range(),
-                form=form,
-            )
+        try:
+            if form.property.data:
+                return render_template(
+                    "ranges.html",
+                    results=RDFInquisitor(form.uri.data).get_range(form.property.data),
+                    form=form,
+                )
+            else:
+                return render_template(
+                    "ranges.html",
+                    results=RDFInquisitor(form.uri.data).get_range(),
+                    form=form,
+                )
+        except ValueError:
+            return render_template("error.html")
     else:
         return render_template("ranges.html", form=form)
 
@@ -94,18 +102,21 @@ def ranges():
 def domains():
     form = QueryProperties(request.form)
     if request.method == "POST":
-        if form.property.data:
-            return render_template(
-                "domains.html",
-                results=RDFInquisitor(form.uri.data).get_range(form.property.data),
-                form=form,
-            )
-        else:
-            return render_template(
-                "domains.html",
-                results=RDFInquisitor(form.uri.data).get_range(),
-                form=form,
-            )
+        try:
+            if form.property.data:
+                return render_template(
+                    "domains.html",
+                    results=RDFInquisitor(form.uri.data).get_range(form.property.data),
+                    form=form,
+                )
+            else:
+                return render_template(
+                    "domains.html",
+                    results=RDFInquisitor(form.uri.data).get_range(),
+                    form=form,
+                )
+        except ValueError:
+            return render_template("error.html")
     else:
         return render_template("domains.html", form=form)
 
@@ -136,11 +147,14 @@ def objects():
 def types():
     form = QueryProperties(request.form)
     if request.method == "POST":
-        return render_template(
-            "types.html",
-            results=RDFInquisitor(form.uri.data).recurse_types(),
-            form=form,
-        )
+        try:
+            return render_template(
+                "types.html",
+                results=RDFInquisitor(form.uri.data).recurse_types(),
+                form=form,
+            )
+        except ValueError:
+            return render_template("error.html")
     else:
         return render_template("types.html", form=form)
 
@@ -149,8 +163,11 @@ def types():
 def visualize():
     form = QueryProperties(request.form)
     if request.method == "POST":
-        code = RDFInquisitor(form.uri.data).visualize()
-        if code == "Success.":
-            return render_template("visualize.html", results=code, form=form)
+        try:
+            code = RDFInquisitor(form.uri.data).visualize()
+            if code == "Success.":
+                return render_template("visualize.html", results=code, form=form)
+        except ValueError:
+            return render_template("error.html")
     else:
         return render_template("visualize.html", form=form)
