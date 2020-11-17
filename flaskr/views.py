@@ -21,9 +21,13 @@ def lookup():
     form = RDFLookup(request.form)
     if request.method == "POST":
         try:
-            code = RDFInquisitor(form.uri.data).flaskerize_rdf(
+            rdf_instance = RDFInquisitor(form.uri.data)
+            code = rdf_instance.flaskerize_rdf(
                 form.subject.data, form.language.data
             )
+            note = False
+            if rdf_instance.negotiable == False:
+                note = True
             lexers = {
                 "ttl": TurtleLexer(),
                 "json-ld": JsonLdLexer(),
@@ -35,7 +39,7 @@ def lookup():
                 lexers[form.language.data],
                 HtmlFormatter(linenos=True, style="colorful", full=True),
             )
-            return render_template("lookup.html", results=Markup(results), form=form)
+            return render_template("lookup.html", results=Markup(results), form=form, note=note)
         except ValueError:
             return render_template("error.html")
     else:
