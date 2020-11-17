@@ -6,6 +6,7 @@ import os
 
 class RDFInquisitor:
     def __init__(self, uri: str):
+        self.negotiable = True
         self.uri = self.__inspect_uri(uri)
         self._response = self.__request_data()
         self.content_type = self.__get_content_type(
@@ -15,12 +16,12 @@ class RDFInquisitor:
         self.rdf = self._response.content.decode("utf-8")
         self.graph = self.__process_rdf()
 
-    @staticmethod
-    def __inspect_uri(url):
+    def __inspect_uri(self, url):
         if (
             url.startswith("https://www.wikidata.org/wiki/")
             and "Special:EntityData" not in url
         ):
+            self.negotiable = False
             return (
                 f"https://www.wikidata.org/wiki/Special:EntityData/"
                 f"{url.split('https://www.wikidata.org/wiki/')[1]}.ttl"
