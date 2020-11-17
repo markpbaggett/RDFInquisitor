@@ -1,11 +1,12 @@
 import requests
 from rdflib import Graph, URIRef, RDFS, Literal
 from rdflib.namespace import RDF, SKOS
+import os
 
 
 class RDFInquisitor:
     def __init__(self, uri: str):
-        self.uri = uri
+        self.uri = self.__inspect_uri(uri)
         self._response = self.__request_data()
         self.content_type = self.__get_content_type(
             self._response.headers["Content-Type"].split(";")[0]
@@ -13,6 +14,19 @@ class RDFInquisitor:
         self._valid = self.__check_if_valid(self.content_type)
         self.rdf = self._response.content.decode("utf-8")
         self.graph = self.__process_rdf()
+
+    @staticmethod
+    def __inspect_uri(url):
+        if (
+            url.startswith("https://www.wikidata.org/wiki/")
+            and "Special:EntityData" not in url
+        ):
+            return (
+                f"https://www.wikidata.org/wiki/Special:EntityData/"
+                f"{url.split('https://www.wikidata.org/wiki/')[1]}.ttl"
+            )
+        else:
+            return url
 
     def __request_data(self):
         headers = {
@@ -368,6 +382,19 @@ class RDFInquisitor:
                 all_types.append(unique)
                 RDFInquisitor(unique).recurse_types(all_types)
         return sorted(all_types)
+
+    # def visualize(self):
+    #     self.download_rdf("/home/mark/PycharmProjects/question_rdf/flaskr/static/rdf")
+    #     os.system(
+    #         "pipenv run python /home/mark/PycharmProjects/question_rdf/ontology-visualization/ontology_viz.py "
+    #         "-o /home/mark/PycharmProjects/question_rdf/flaskr/static/rdf.dot "
+    #         "/home/mark/PycharmProjects/question_rdf/flaskr/static/rdf.ttl"
+    #     )
+    #     os.system(
+    #         "dot -Tpng -o /home/mark/PycharmProjects/question_rdf/flaskr/static/rdf.png "
+    #         "/home/mark/PycharmProjects/question_rdf/flaskr/static/rdf.dot"
+    #     )
+    #     return "Success."
 
 
 if __name__ == "__main__":
