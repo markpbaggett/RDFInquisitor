@@ -62,10 +62,10 @@
                         {% if note %}
                             <div class="row col-md-12">
                                 <div class="alert alert-danger">
-                                    <strong>Warning!</strong> The URI you supplied does not adhere to concepts recommended in
+                                    <p><strong>Warning!</strong> The URI you supplied does not adhere to concepts recommended in
                                     <a href="https://www.w3.org/TR/swbp-vocab-pub/">Best Practice Recipes for Publishing RDF Vocabularies</a>
-                                    or <a href="https://www.w3.org/TR/cooluris/">Cool URIs for the Semantic Web</a>.  It has
-                                    been converted based on a known case so that RDF can be negotiated from its webserver.
+                                    or <a href="https://www.w3.org/TR/cooluris/">Cool URIs for the Semantic Web</a>.  It has been converted based on a known case so that RDF can be negotiated from its webserver.</p>
+                                    <p>In the future, use this URI instead: <a href="{{ uri }}">{{ uri }}</a>.</p>
                                 </div>
                             </div>
                         {% endif %}

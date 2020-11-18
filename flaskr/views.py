@@ -26,7 +26,7 @@ def lookup():
                 form.subject.data, form.language.data
             )
             note = False
-            if rdf_instance.negotiable == False:
+            if rdf_instance.negotiable is False:
                 note = True
             lexers = {
                 "ttl": TurtleLexer(),
@@ -39,7 +39,7 @@ def lookup():
                 lexers[form.language.data],
                 HtmlFormatter(linenos=True, style="colorful", full=True),
             )
-            return render_template("lookup.html", results=Markup(results), form=form, note=note)
+            return render_template("lookup.html", results=Markup(results), form=form, note=note, uri=rdf_instance.uri)
         except ValueError:
             return render_template("error.html")
     else:

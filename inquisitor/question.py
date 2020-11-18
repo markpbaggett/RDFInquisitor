@@ -19,12 +19,11 @@ class RDFInquisitor:
     def __inspect_uri(self, url):
         if (
             url.startswith("https://www.wikidata.org/wiki/")
-            and "Special:EntityData" not in url
         ):
             self.negotiable = False
             return (
-                f"https://www.wikidata.org/wiki/Special:EntityData/"
-                f"{url.split('https://www.wikidata.org/wiki/')[1]}.ttl"
+                f"https://www.wikidata.org/entity/"
+                f"{url.split('https://www.wikidata.org/wiki/')[1]}"
             )
         else:
             return url
