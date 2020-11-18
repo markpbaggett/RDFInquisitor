@@ -22,7 +22,7 @@ class RDFInquisitor:
         ):
             self.negotiable = False
             return (
-                f"https://www.wikidata.org/entity/"
+                f"http://www.wikidata.org/entity/"
                 f"{url.split('https://www.wikidata.org/wiki/')[1]}"
             )
         else:
