@@ -7,7 +7,6 @@ from pygments.lexers.rdf import TurtleLexer
 from pygments.lexers.data import JsonLdLexer
 from pygments.lexers.html import XmlLexer
 from .forms import RDFLookup, LabelLookup, QueryProperties
-import os
 
 
 @app.route("/", methods=["GET"])
@@ -22,9 +21,7 @@ def lookup():
     if request.method == "POST":
         try:
             rdf_instance = RDFInquisitor(form.uri.data)
-            code = rdf_instance.flaskerize_rdf(
-                form.subject.data, form.language.data
-            )
+            code = rdf_instance.flaskerize_rdf(form.subject.data, form.language.data)
             note = False
             if rdf_instance.negotiable is False:
                 note = True
@@ -39,7 +36,13 @@ def lookup():
                 lexers[form.language.data],
                 HtmlFormatter(linenos=True, style="colorful", full=True),
             )
-            return render_template("lookup.html", results=Markup(results), form=form, note=note, uri=rdf_instance.uri)
+            return render_template(
+                "lookup.html",
+                results=Markup(results),
+                form=form,
+                note=note,
+                uri=rdf_instance.uri,
+            )
         except ValueError:
             return render_template("error.html")
     else:
@@ -51,20 +54,26 @@ def labels():
     form = LabelLookup(request.form)
     if request.method == "POST":
         try:
+            rdf_instance = RDFInquisitor(form.uri.data)
+            note = False
+            if rdf_instance.negotiable is False:
+                note = True
             if form.language.data == "" or form.language.data is None:
                 if form.subject.data == "" or form.subject.data is None:
                     return render_template(
                         "labels.html",
-                        results=RDFInquisitor(form.uri.data).get_labels(),
+                        results=rdf_instance.get_labels(),
                         form=form,
+                        note=note,
+                        uri=rdf_instance.uri,
                     )
                 else:
                     return render_template(
                         "labels.html",
-                        results=RDFInquisitor(form.uri.data).get_labels(
-                            form.subject.data
-                        ),
+                        results=rdf_instance.get_labels(form.subject.data),
                         form=form,
+                        note=note,
+                        uri=rdf_instance.uri,
                     )
             else:
                 labels = [
@@ -72,7 +81,13 @@ def labels():
                         form.uri.data, form.language.data
                     )
                 ]
-                return render_template("labels.html", results=labels, form=form)
+                return render_template(
+                    "labels.html",
+                    results=labels,
+                    form=form,
+                    note=note,
+                    uri=rdf_instance.uri,
+                )
         except ValueError:
             return render_template("error.html")
     else:
