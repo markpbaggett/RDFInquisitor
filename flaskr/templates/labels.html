@@ -79,13 +79,13 @@
                                         <div class="panel-body">
                                             <ol>
                                             {% for result in results %}
-                                                {% if result.language%}
+                                                {% if result[0].language%}
                                                     <li>
-                                                        {{result}} ({{result.language}})
+                                                        {{result[0]}} ({{result[0].language}}) from <a href="{{ result[1] }}">{{ result[1] }}</a>
                                                     </li>
                                                 {% else %}
                                                     <li>
-                                                    {{result}}
+                                                    {{result[0]}} from <a href="{{ result[1] }}">{{ result[1] }}</a>
                                                     </li>
                                                 {% endif %}
                                             {% endfor %}

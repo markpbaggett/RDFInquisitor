@@ -76,14 +76,12 @@ def labels():
                         uri=rdf_instance.uri,
                     )
             else:
-                labels = [
-                    RDFInquisitor(form.uri.data).get_label_by_language(
+                new_labels = RDFInquisitor(form.uri.data).get_labels_by_language(
                         form.uri.data, form.language.data
                     )
-                ]
                 return render_template(
                     "labels.html",
-                    results=labels,
+                    results=new_labels,
                     form=form,
                     note=note,
                     uri=rdf_instance.uri,
