@@ -1,7 +1,6 @@
 import requests
 from rdflib import Graph, URIRef, RDFS, Literal
 from rdflib.namespace import RDF, SKOS
-import os
 
 
 class RDFInquisitor:
@@ -130,35 +129,35 @@ class RDFInquisitor:
         else:
             return self.graph.serialize(format=file_format, indent=4)
 
-    def get_label_by_language(self, subject, language_tag):
+    def get_labels_by_language(self, subject, language_tag):
         """Get the label of a subject in a specific language.
 
-        Requires a subject and a language code and returns the label in that language or a message saying the label in
-        that language could not be found.
+        Requires a subject and optionally accepts the language code and returns the label(s) in that language or an
+        empty list.
 
         Args:
             subject (str): The URI of the subject being queried.
             language_tag (str): The IETF language tag for the label.
 
         Returns:
-            str: Either the label or a message indicating that no label could be found.
+            list: A list of tuples with the object's literal value and its relationship to the digital object.
 
         Examples:
-            >>> RDFInquisitor("http://rightsstatements.org/vocab/InC/1.0/").get_label_by_language(
+            >>> RDFInquisitor("http://rightsstatements.org/vocab/InC/1.0/").get_labels_by_language(
             ... "http://rightsstatements.org/vocab/InC/1.0/", "en")
-            'In Copyright'
+            [(rdflib.term.Literal('In Copyright', lang='en'), rdflib.term.URIRef('http://www.w3.org/2004/02/skos/core#prefLabel'))]
 
-            >>> RDFInquisitor("http://rightsstatements.org/vocab/InC/1.0/").get_label_by_language(
+            >>> RDFInquisitor("http://rightsstatements.org/vocab/InC/1.0/").get_labels_by_language(
             ... "http://rightsstatements.org/vocab/InC/1.0/", "ja")
-            'No label for http://rightsstatements.org/vocab/InC/1.0/ in ja.'
+            []
 
         """
-        result = f"No label for {subject} in {language_tag}."
-        labels = self.get_labels(subject)
+        language_labels = []
+        labels = self.get_labels(self.__inspect_uri(subject))
         for label in labels:
-            if label.language == language_tag:
-                result = str(label)
-        return result
+            if label[0].language == language_tag:
+                language_labels.append(label)
+        return language_labels
 
     def get_labels(self, subject=None):
         """Get a list of labels from your graph.
@@ -175,30 +174,43 @@ class RDFInquisitor:
         Examples:
             >>> RDFInquisitor("http://rightsstatements.org/vocab/InC/1.0/").get_labels()
             ... #doctest: +NORMALIZE_WHITESPACE
-            [rdflib.term.Literal('Urheberrechtsschutz', lang='de'), rdflib.term.Literal('In Copyright', lang='en'),
-            rdflib.term.Literal('Protegido por derecho de autor', lang='es'),
-            rdflib.term.Literal('Kehtiv autoriõigus', lang='et'),
-            rdflib.term.Literal('Tekijänoikeuden piirissä', lang='fi'),
-            rdflib.term.Literal("Protégé par le droit d'auteur", lang='fr'),
-            rdflib.term.Literal('प्रतिलिप्यधिकार (कॉपीराइट) में', lang='hi'),
-            rdflib.term.Literal('Autorių teisės saugomos', lang='lt'),
-            rdflib.term.Literal('Auteursrechtelijk beschermd', lang='nl'),
-            rdflib.term.Literal('Objęty pełną ochroną prawnoautorską', lang='pl'),
-            rdflib.term.Literal('Underkastad upphovsrätt', lang='sv-fi')]
+            [(rdflib.term.Literal('Urheberrechtsschutz', lang='de'),
+            rdflib.term.URIRef('http://www.w3.org/2004/02/skos/core#prefLabel')),
+            (rdflib.term.Literal('In Copyright', lang='en'),
+            rdflib.term.URIRef('http://www.w3.org/2004/02/skos/core#prefLabel')),
+            (rdflib.term.Literal('Protegido por derecho de autor', lang='es'),
+            rdflib.term.URIRef('http://www.w3.org/2004/02/skos/core#prefLabel')),
+            (rdflib.term.Literal('Kehtiv autoriõigus', lang='et'),
+            rdflib.term.URIRef('http://www.w3.org/2004/02/skos/core#prefLabel')),
+            (rdflib.term.Literal('Tekijänoikeuden piirissä', lang='fi'),
+            rdflib.term.URIRef('http://www.w3.org/2004/02/skos/core#prefLabel')),
+            (rdflib.term.Literal("Protégé par le droit d'auteur", lang='fr'),
+            rdflib.term.URIRef('http://www.w3.org/2004/02/skos/core#prefLabel')),
+            (rdflib.term.Literal('प्रतिलिप्यधिकार (कॉपीराइट) में', lang='hi'),
+            rdflib.term.URIRef('http://www.w3.org/2004/02/skos/core#prefLabel')),
+            (rdflib.term.Literal('Autorių teisės saugomos', lang='lt'),
+            rdflib.term.URIRef('http://www.w3.org/2004/02/skos/core#prefLabel')),
+            (rdflib.term.Literal('Auteursrechtelijk beschermd', lang='nl'),
+            rdflib.term.URIRef('http://www.w3.org/2004/02/skos/core#prefLabel')),
+            (rdflib.term.Literal('Objęty pełną ochroną prawnoautorską', lang='pl'),
+            rdflib.term.URIRef('http://www.w3.org/2004/02/skos/core#prefLabel')),
+            (rdflib.term.Literal('Underkastad upphovsrätt', lang='sv-fi'),
+            rdflib.term.URIRef('http://www.w3.org/2004/02/skos/core#prefLabel'))]
 
             >>> RDFInquisitor("http://purl.org/dc/terms/valid").get_labels("http://purl.org/dc/terms/valid")
-            [rdflib.term.Literal('Date Valid', lang='en')]
+            [(rdflib.term.Literal('Date Valid', lang='en'), rdflib.term.URIRef('http://www.w3.org/2000/01/rdf-schema#label'))]
+
 
         """
         labels = []
         for s, p, o in self.graph.triples(
             (self.__convert_fragment(subject), SKOS.prefLabel, None)
         ):
-            labels.append(o)
+            labels.append((o, p))
         for s, p, o in self.graph.triples(
             (self.__convert_fragment(subject), RDFS.label, None)
         ):
-            labels.append(o)
+            labels.append((o, p))
         return sorted(labels)
 
     def get_range(self, rdf_property=None):
