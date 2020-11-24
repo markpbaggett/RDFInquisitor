@@ -204,15 +204,15 @@ class RDFInquisitor:
         """
         labels = []
         for s, p, o in self.graph.triples(
-            (self.__convert_fragment(subject), SKOS.prefLabel, None)
+            (self.__convert_fragment(self.__inspect_uri(subject)), SKOS.prefLabel, None)
         ):
             labels.append((o, p))
         for s, p, o in self.graph.triples(
-            (self.__convert_fragment(subject), SKOS.altLabel, None)
+            (self.__convert_fragment(self.__inspect_uri(subject)), SKOS.altLabel, None)
         ):
             labels.append((o, p))
         for s, p, o in self.graph.triples(
-            (self.__convert_fragment(subject), RDFS.label, None)
+            (self.__convert_fragment(self.__inspect_uri(subject)), RDFS.label, None)
         ):
             labels.append((o, p))
         return sorted(labels)
