@@ -119,7 +119,7 @@ class RDFInquisitor:
             test_fragment = [
                 (s, p, o)
                 for s, p, o in self.graph.triples(
-                    (self.__convert_fragment(subject), None, None)
+                    (self.__convert_fragment(self.__inspect_uri(subject)), None, None)
                 )
             ]
             g = Graph()
