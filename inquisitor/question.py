@@ -204,6 +204,8 @@ class RDFInquisitor:
         """
         labels = []
         predicates = (SKOS.prefLabel, SKOS.altLabel, RDFS.label)
+        if subject is not None:
+            subject = self.__inspect_uri(subject)
         for predicate in predicates:
             for s, p, o in self.graph.triples(
                 (self.__convert_fragment(subject), predicate, None)
