@@ -6,3 +6,5 @@
 __pycache__/*
 inquisitor/__pycache__/
 flaskr/__pycache__/*
+*.pyc
+
