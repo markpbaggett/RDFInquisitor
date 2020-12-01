@@ -157,7 +157,7 @@ class RDFInquisitor:
         for label in labels:
             if label[0].language == language_tag:
                 language_labels.append(label)
-        return []
+        return language_labels
 
     def get_labels(self, subject=None):
         """Get a list of labels from your graph.
