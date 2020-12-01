@@ -43,8 +43,8 @@ def lookup():
                 note=note,
                 uri=rdf_instance.uri,
             )
-        except ValueError:
-            return render_template("error.html")
+        except ValueError as e:
+            return render_template("error.html", error=e)
     else:
         return render_template("lookup.html", form=form)
 
@@ -86,8 +86,8 @@ def labels():
                     note=note,
                     uri=rdf_instance.uri,
                 )
-        except ValueError:
-            return render_template("error.html")
+        except ValueError as e:
+            return render_template("error.html", error=e)
     else:
         return render_template("labels.html", form=form)
 
