@@ -6,6 +6,5 @@ set -e
 # always make sure we're at the root of our application.
 cd "${0%/*}/.."
 
-echo "Running tests"
+echo -e "\nRunning tests:\n"
 pipenv run pytest inquisitor/question.py --doctest-modules
-
