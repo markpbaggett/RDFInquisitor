@@ -16,9 +16,7 @@ class RDFInquisitor:
         self.graph = self.__process_rdf()
 
     def __inspect_uri(self, url):
-        if (
-            url.startswith("https://www.wikidata.org/wiki/")
-        ):
+        if url.startswith("https://www.wikidata.org/wiki/"):
             self.negotiable = False
             return (
                 f"http://www.wikidata.org/entity/"
