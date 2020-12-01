@@ -1,11 +1,12 @@
 #!/usr/bin/bash
 
-echo "Running pre-commit hooks."
+echo -e "Running pre-commit hooks.\n"
+./hooks/lint.sh
 ./hooks/run-tests.sh
 
 # Store exit value from command above and check if it's not zero.
 if [ $? -ne 0 ]; then
- echo "Tests must pass before commit!"
+ echo -e "\nFAILED: Tests must pass before commit!"
  exit 1
 fi
 
