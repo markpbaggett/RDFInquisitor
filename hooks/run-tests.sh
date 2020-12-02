@@ -24,5 +24,5 @@ then
   echo -e "\nRunning tests:\n"
   pipenv run pytest inquisitor/question.py --doctest-modules
 else
-  echo -e "\nNo tests to run.  Skipping."
+  echo -e "\nNo tests to run.  Skipping.\n"
 fi
