@@ -77,8 +77,8 @@ def labels():
                     )
             else:
                 new_labels = RDFInquisitor(form.uri.data).get_labels_by_language(
-                        form.uri.data, form.language.data
-                    )
+                    form.uri.data, form.language.data
+                )
                 return render_template(
                     "labels.html",
                     results=new_labels,
