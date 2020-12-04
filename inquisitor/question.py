@@ -22,6 +22,12 @@ class RDFInquisitor:
                 f"http://www.wikidata.org/entity/"
                 f"{url.split('https://www.wikidata.org/wiki/')[1]}"
             )
+        elif (
+            url.startswith("https://creativecommons.org/licenses/")
+            and "/rdf" not in url
+        ):
+            self.negotiable = False
+            return f"{url}rdf"
         else:
             return url
 
