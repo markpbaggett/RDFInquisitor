@@ -1,6 +1,6 @@
 import requests
 from rdflib import Graph, URIRef, RDFS, Literal
-from rdflib.namespace import RDF, SKOS
+from rdflib.namespace import RDF, SKOS, DC
 
 
 class RDFInquisitor:
@@ -24,10 +24,11 @@ class RDFInquisitor:
             )
         elif (
             url.startswith("https://creativecommons.org/licenses/")
+            or url.startswith("http://creativecommons.org/licenses/")
             and "/rdf" not in url
         ):
             self.negotiable = False
-            return f"{url}rdf"
+            return f"{url.replace('https', 'http')}rdf"
         else:
             return url
 
@@ -204,10 +205,9 @@ class RDFInquisitor:
             >>> RDFInquisitor("http://purl.org/dc/terms/valid").get_labels("http://purl.org/dc/terms/valid")
             [(rdflib.term.Literal('Date Valid', lang='en'), rdflib.term.URIRef('http://www.w3.org/2000/01/rdf-schema#label'))]
 
-
         """
         labels = []
-        predicates = (SKOS.prefLabel, SKOS.altLabel, RDFS.label)
+        predicates = (SKOS.prefLabel, SKOS.altLabel, RDFS.label, DC.title)
         if subject is not None:
             subject = self.__inspect_uri(subject)
         for predicate in predicates:
