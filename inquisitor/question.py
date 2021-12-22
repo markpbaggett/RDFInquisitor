@@ -65,7 +65,7 @@ class RDFInquisitor:
             "application/xml"
         ):
             raise ValueError(
-                f"This is not valid RDF! Check your URI. Mime type is {mime_type}."
+                f"This is not valid RDF! Check your URI. The mime type returned was {mime_type}."
             )
         return True
 
