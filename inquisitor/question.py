@@ -62,6 +62,7 @@ class RDFInquisitor:
             "application/rdf+n3",
             "application/rdf+xml",
             "application/n-triples",
+            "application/xml"
         ):
             raise ValueError(
                 f"This is not valid RDF! Check your URI. Mime type is {mime_type}."
@@ -115,7 +116,9 @@ class RDFInquisitor:
 
         """
         with open(f"{path}.{file_format}", "wb") as rdf:
-            rdf.write(self.graph.serialize(format=file_format, indent=4))
+            rdf.write(
+                self.graph.serialize(format=file_format, indent=4).encode("utf-8")
+            )
         return f"File was successfully serialized as {path}.{file_format}"
 
     def flaskerize_rdf(self, subject, file_format="ttl"):
