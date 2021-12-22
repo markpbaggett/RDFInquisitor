@@ -42,6 +42,8 @@ class RDFInquisitor:
     def __process_rdf(self):
         if "json" in self.content_type:
             return Graph().parse(data=self.rdf, format="json-ld")
+        elif self._valid is False:
+            return Graph().parse(data=self.rdf, format="xml")
         else:
             return Graph().parse(data=self.rdf, format=self.content_type)
 
@@ -61,12 +63,14 @@ class RDFInquisitor:
             "text/rdf+n3",
             "application/rdf+n3",
             "application/rdf+xml",
-            "application/n-triples",
-            "application/xml"
+            "application/n-triples"
         ):
-            raise ValueError(
-                f"This is not valid RDF! Check your URI. The mime type returned was {mime_type}."
-            )
+            if mime_type == "application/xml":
+                return False
+            else:
+                raise ValueError(
+                    f"This is not valid RDF! Check your URI. The mime type returned was {mime_type}."
+                )
         return True
 
     @staticmethod
