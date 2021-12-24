@@ -3,15 +3,17 @@ name: Test Doctests
 on: [push]
 
 jobs:
-  build:
+  job:
+    name: My job
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Install dependecies
-        uses: VaultVulp/action-pipenv@v2.0.1
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install Python, pipenv and Pipfile packages
+        uses: palewire/install-python-pipenv-pipfile@v2
         with:
-          command: install -d # Install all dependencies, including development ones
-      - name: Test Doctests with Pytest
-        uses: VaultVulp/action-pipenv@v2.0.1
-        with:
-          command: run pytest inquisitor/question.py --doctest-modules
+          python-version: 3.7
+
+      - name: Run doctests
+        run: pipenv run pytest inquisitor/question.py --doctest-modules
