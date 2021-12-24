@@ -13,7 +13,7 @@ jobs:
       - name: Install Python, pipenv and Pipfile packages
         uses: palewire/install-python-pipenv-pipfile@v2
         with:
-          python-version: 3.7
+          python-version: 3.8
 
       - name: Run doctests
         run: pipenv run pytest inquisitor/question.py --doctest-modules
