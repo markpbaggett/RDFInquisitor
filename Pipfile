@@ -20,6 +20,7 @@ wtforms = "*"
 flask-wtf = "*"
 graphviz = "*"
 gunicorn = "*"
+pytest = "*"
 
 [requires]
 python_version = "3"

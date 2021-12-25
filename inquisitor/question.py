@@ -42,6 +42,8 @@ class RDFInquisitor:
     def __process_rdf(self):
         if "json" in self.content_type:
             return Graph().parse(data=self.rdf, format="json-ld")
+        elif self._valid is False:
+            return Graph().parse(data=self.rdf, format="xml")
         else:
             return Graph().parse(data=self.rdf, format=self.content_type)
 
@@ -61,11 +63,14 @@ class RDFInquisitor:
             "text/rdf+n3",
             "application/rdf+n3",
             "application/rdf+xml",
-            "application/n-triples",
+            "application/n-triples"
         ):
-            raise ValueError(
-                f"This is not valid RDF! Check your URI. Mime type is {mime_type}."
-            )
+            if mime_type == "application/xml":
+                return False
+            else:
+                raise ValueError(
+                    f"This is not valid RDF! Check your URI. The mime type returned was {mime_type}."
+                )
         return True
 
     @staticmethod
@@ -115,7 +120,9 @@ class RDFInquisitor:
 
         """
         with open(f"{path}.{file_format}", "wb") as rdf:
-            rdf.write(self.graph.serialize(format=file_format, indent=4))
+            rdf.write(
+                self.graph.serialize(format=file_format, indent=4).encode("utf-8")
+            )
         return f"File was successfully serialized as {path}.{file_format}"
 
     def flaskerize_rdf(self, subject, file_format="ttl"):
@@ -193,6 +200,8 @@ class RDFInquisitor:
             rdflib.term.URIRef('http://www.w3.org/2004/02/skos/core#prefLabel')),
             (rdflib.term.Literal('प्रतिलिप्यधिकार (कॉपीराइट) में', lang='hi'),
             rdflib.term.URIRef('http://www.w3.org/2004/02/skos/core#prefLabel')),
+            (rdflib.term.Literal('In Copyright', lang='it'),
+            rdflib.term.URIRef('http://www.w3.org/2004/02/skos/core#prefLabel')),
             (rdflib.term.Literal('Autorių teisės saugomos', lang='lt'),
             rdflib.term.URIRef('http://www.w3.org/2004/02/skos/core#prefLabel')),
             (rdflib.term.Literal('Auteursrechtelijk beschermd', lang='nl'),
@@ -201,6 +210,7 @@ class RDFInquisitor:
             rdflib.term.URIRef('http://www.w3.org/2004/02/skos/core#prefLabel')),
             (rdflib.term.Literal('Underkastad upphovsrätt', lang='sv-fi'),
             rdflib.term.URIRef('http://www.w3.org/2004/02/skos/core#prefLabel'))]
+
 
             >>> RDFInquisitor("http://purl.org/dc/terms/valid").get_labels("http://purl.org/dc/terms/valid")
             [(rdflib.term.Literal('Date Valid', lang='en'), rdflib.term.URIRef('http://www.w3.org/2000/01/rdf-schema#label'))]
@@ -238,7 +248,7 @@ class RDFInquisitor:
             ['http://www.w3.org/2004/02/skos/core#ConceptScheme']
 
             >>> RDFInquisitor("http://id.loc.gov/ontologies/bibframe/grantingInstitution").get_range()
-            ['http://id.loc.gov/ontologies/bibframe/Agent']
+            ['http://www.w3.org/2000/01/rdf-schema#Resource']
 
         """
         return [
@@ -310,7 +320,7 @@ class RDFInquisitor:
         g = Graph()
         for fragment in test_fragment:
             g.add(fragment)
-        with open(f"{path}.{file_format}", "wb") as rdf:
+        with open(f"{path}.{file_format}", "w") as rdf:
             rdf.write(g.serialize(format=file_format, indent=4))
         return f"File was successfully serialized as {path}.{file_format}"
 
