@@ -44,7 +44,10 @@ class RDFInquisitor:
             return Graph().parse(data=self.rdf, format="json-ld")
         elif self._valid is False:
             return Graph().parse(data=self.rdf, format="xml")
+        elif 'text/rdf+n3' in self.content_type:
+            return Graph().parse(data=self.rdf, format="text/n3")
         else:
+            print(self.content_type)
             return Graph().parse(data=self.rdf, format=self.content_type)
 
     @staticmethod
