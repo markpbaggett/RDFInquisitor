@@ -188,7 +188,9 @@ class RDFInquisitor:
         Examples:
             >>> RDFInquisitor("http://rightsstatements.org/vocab/InC/1.0/").get_labels()
             ... #doctest: +NORMALIZE_WHITESPACE
-            [(rdflib.term.Literal('Urheberrechtsschutz', lang='de'),
+            [(rdflib.term.Literal('Protegit per Drets d’Autor', lang='ca'),
+            rdflib.term.URIRef('http://www.w3.org/2004/02/skos/core#prefLabel')),
+            (rdflib.term.Literal('Urheberrechtsschutz', lang='de'),
             rdflib.term.URIRef('http://www.w3.org/2004/02/skos/core#prefLabel')),
             (rdflib.term.Literal('In Copyright', lang='en'),
             rdflib.term.URIRef('http://www.w3.org/2004/02/skos/core#prefLabel')),
@@ -201,6 +203,8 @@ class RDFInquisitor:
             (rdflib.term.Literal("Protégé par le droit d'auteur", lang='fr'),
             rdflib.term.URIRef('http://www.w3.org/2004/02/skos/core#prefLabel')),
             (rdflib.term.Literal('प्रतिलिप्यधिकार (कॉपीराइट) में', lang='hi'),
+            rdflib.term.URIRef('http://www.w3.org/2004/02/skos/core#prefLabel')),
+            (rdflib.term.Literal('Zaštićeno autorskim pravom', lang='hr'),
             rdflib.term.URIRef('http://www.w3.org/2004/02/skos/core#prefLabel')),
             (rdflib.term.Literal('In Copyright', lang='it'),
             rdflib.term.URIRef('http://www.w3.org/2004/02/skos/core#prefLabel')),
